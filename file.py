@@ -1,12 +1,17 @@
 import socket
 
+HEADERSIZE
+
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind(('127.40.10.1', 1234))
 s.listen(5)
 
 while True:
-    # now our endpoint knows about the OTHER endpoint.
-    clientsocket, address = s.accept()
-    print(f"Connection from {address} has been established.")
-    clientsocket.send(bytes("Hey there!!!","utf-8"))
-    clientsocket.close()
+    clientsocket, adress = s.accept()
+    print(f'Connection from {adress} has been established')
+    
+    msg = "Welcome to the server!"
+    msg = f'{len(msg):<{HEADERSIZE}}' + msg
+    
+    clientsocket.send(bytes(msg,"utf-8"))
+    clientsocket.close((
