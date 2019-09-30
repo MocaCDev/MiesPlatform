@@ -13,5 +13,4 @@ while True:
     msg = "Welcome to the server!"
     msg = f'{len(msg):<{HEADERSIZE}}' + msg
     
-    clientsocket.send(bytes(msg,"utf-8"))
-    clientsocket.close((
+    clientsocket.send(bytes("Welcome to the server","utf-8"))
