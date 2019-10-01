@@ -3,7 +3,7 @@ import socket
 HEADERSIZE = 10
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.bind(('127.40.10.1', 1236))
+s.bind((s.gethostname(), 1236))
 s.listen(5)
 
 while True:
