@@ -1,5 +1,5 @@
 from start_connection import *
-from server import using
+import server
 
 con = start_connection('127.0.0.1',4001)
 con.start()
