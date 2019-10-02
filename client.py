@@ -23,3 +23,6 @@ while True:
       new_msg = True
       full_msg = ''
   print(full_msg)
+
+name = input('Your Name: ')
+s.send(bytes(name,'utf-8'))
