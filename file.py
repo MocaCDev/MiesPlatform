@@ -6,11 +6,17 @@ s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((socket.gethostname(), 1236))
 s.listen(5)
 
+n_msg = ''
+
 while True:
     clientsocket, adress = s.accept()
     print(f'Connection from {adress} has been established')
     
     msg = "Welcome to the server!"
     msg = f'{len(msg):<{HEADERSIZE}}' + msg
+    
+    new_msg = s.recv(16)
+    n_msg += new_msg.decode('utf-8')
+    print(n_msg)
     
     clientsocket.send(bytes(msg,"utf-8"))
