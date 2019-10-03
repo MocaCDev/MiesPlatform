@@ -51,7 +51,7 @@ class server:
     if os.path.exists('start_server.json'):
       self.server_has_started = True
   
-  def _establish(self,accepting):
+  def _establish_(self,accepting):
     if self.server_has_started:
       print(Fore.GREEN+Style.BRIGHT+'[+]' + Fore.WHITE + ' Server established..awaiting other connections')
     while self.server_has_started:
