@@ -7,6 +7,7 @@ FROM = ""
 HAS_CONNECTED = False
 MSG = ""
 CON_TO = ""
+STARTED = False
 
 def makefile(data):
   with open('start_server.json','w') as file:
@@ -27,14 +28,22 @@ def gathered():
   print(f'{FROM}')
   print(f'{MSG}')
 
+def client_started(has_started):
+  global STARTED
+
+  if has_started == True:
+    STARTED = has_started
+  else:
+    pass
+
 class server:
   def __init__(self,ip,port):
-    global HAS_CONNECTED
-    global CON_TO
+    global HAS_CONNECTED,CON_TO,STARTED
     self.has_connected = HAS_CONNECTED
     self.ip = ip
     self.port = port
     self.has_connected_to = CON_TO
+    self.client_started = STARTED
   
   def start(self):
     data = {'ip':self.ip,'port':self.port}
@@ -46,7 +55,10 @@ class server:
     if self.server_has_started:
       print(Fore.GREEN+Style.BRIGHT+'[+]' + Fore.WHITE + ' Server established..awaiting other connections')
     while self.server_has_started:
-      if self.has_connected and self.has_connected_to == self.ip:
-        s(3)
-        gathered()
-        self.has_connected = False
+      if self.client_started:
+        if self.has_connected and self.has_connected_to == self.ip:
+          s(3)
+          gathered()
+          self.has_connected = False
+      else:
+        continue
