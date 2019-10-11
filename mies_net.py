@@ -15,9 +15,9 @@ class mies_network:
     for i in IP:
       print('IP: ' + i)
     get_ip = input('Which Ip would you like to use? [1,2,3] ')
-    if get_ip == '1':ip = ip = f'{IP[0]}'
-    if get_ip == '2':ip = ip = f'{IP[1]}'
-    if get_ip == '3':ip = ip = f'{IP[2]}'
+    if get_ip == '1':ip = f'{IP[0]}'
+    if get_ip == '2':ip = f'{IP[1]}'
+    if get_ip == '3':ip = f'{IP[2]}'
     self.ip = str(ip)
 
   # Sets up information about location of data storage
