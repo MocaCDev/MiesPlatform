@@ -1,4 +1,4 @@
-from sok_it import *
+from mies_net import *
 import os
 from time import sleep as s
 
