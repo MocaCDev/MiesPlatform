@@ -24,7 +24,7 @@ class connect:
     os.system('clear')
     for i in self._all_ip:
       print(Style.BRIGHT+Fore.GREEN+'Connect With IP: ' + Fore.WHITE+i)
-      s(.8--)
+      s(.8)
 
     connect_file_through = input('\nConnect to file through ip [1,2,3] >> ')
 
