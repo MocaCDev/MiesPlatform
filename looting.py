@@ -3,8 +3,6 @@ import os, json, subprocess
 from colorama import Fore,Style
 from time import sleep as s
 
-# This will append the ip's from mies_net.py file
-IP = []
 # This will be the connection names
 CONNECTION_WITH = []
 
