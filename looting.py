@@ -1,4 +1,4 @@
-"this file will deal with all of the connections"
+"This file is the looting point for connectiong to and from the IP address"
 import os, json, subprocess
 from colorama import Fore,Style
 from time import sleep as s
@@ -9,13 +9,20 @@ IP = []
 CONNECTION_WITH = []
 
 class connect:
+  
+  "deals with all of the connections"
 
   def _gather_(self,_ip_,all_ip,**DATA):
+    "Gather basic data needed to start up the connection"
     self.data = DATA
     self.IP = _ip_
     self._all_ip = all_ip
   
   def _start_(self):
+    """
+    This will gather the IP address of which the user wants to connect to
+    depending on whether or not the given IP address has a linked file to it
+    """
     print(Fore.GREEN+Style.BRIGHT+'[+]'+Fore.WHITE+' Setup IP done...\n\n')
     s(4)
     print(Style.BRIGHT+Fore.RED+'[-]'+Fore.WHITE+' Connection to IP not complete..\n\n\nLoading...')
@@ -36,6 +43,9 @@ class connect:
 
 
   def _connect_(self):
+    """
+    This will follow through with the status of the connection
+    """
     if self.con_info['con_to_file_through_ip'] == self.IP:
       print('connection complete. connection with ' + self.con_info['con_to_file_through_ip'] + ' to ' + self.data['use'][self.con_info['con_to_file_through_ip']+'_con_to_file_'])
     else:
