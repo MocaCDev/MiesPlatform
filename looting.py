@@ -1,4 +1,4 @@
-"This file is the looting point for connectiong to and from the IP address"
+"This file is the looting point for connections to and from the IP address"
 import os, json, subprocess
 from colorama import Fore,Style
 from time import sleep as s
