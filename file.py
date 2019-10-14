@@ -3,7 +3,6 @@ import os
 from time import sleep as s
 from colorama import Fore, Style
 from mies_net import mies_network
-from looting import *
 
 s = mies_network()
 
