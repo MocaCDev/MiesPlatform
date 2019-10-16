@@ -14,13 +14,15 @@ CONNECTIONS = []
 
 class mies_network:
 
-  print(Fore.RED + Style.BRIGHT + '[-]' + Fore.WHITE + ' Setup IP not complete...')
-  print(Style.BRIGHT + Fore.RED + '[-]' + Fore.WHITE + ' Connectino to IP not complete...')
-  print('\n\n')
-  s(3.6)
-
   # MiesPlatform will run off of this IP
   def _set_ip_(self):
+    print(Fore.RED + Style.BRIGHT + '[-]' + Fore.WHITE + ' Setup IP not complete...')
+    print(Style.BRIGHT + Fore.RED + '[-]' + Fore.WHITE + ' Connectino to IP not complete...')
+    print('\n\n')
+    s(3.6)
+
+    "Sets up an IP to connect to a file"
+
     global IP
     for i in IP:
       print(Style.BRIGHT + Fore.GREEN + 'IP: ' + Fore.WHITE+ i)
@@ -50,7 +52,7 @@ class mies_network:
         if not os.path.exists(os.path.abspath(d[2])):raise NotADirectoryError('No such directory ' + os.path.abspath(d[2]))
         if os.path.exists(os.path.abspath(d[0])) and os.path.exists(os.path.abspath(d[1])) and os.path.exists(os.path.abspath(d[2])):self.info = {IP[0]:[os.path.abspath(d[0])],IP[1]:[os.path.abspath(d[1])],IP[2]:[os.path.abspath(d[2])]}
     else:
-      self.assign = False
+      pass
     get_ip = input('Which Ip would you like to use? [1,2,3] ')
 
     # Getting the IP
@@ -60,14 +62,17 @@ class mies_network:
 
     # This will be used for connections across the platform
     self.ip = str(ip)
+    self.info = {ip:[]}
 
   # Sets up information about location of data storage
   def _gather_(self,**setup_info):
+
+    "Gathers information to setup the IP file connection officialy"
+
     if 'PATH' in setup_info:
       if os.path.exists(setup_info['PATH']):
         self.file_path = os.path.abspath(setup_info['PATH'])
-        if self.assign == True and self.ip in self.info:
-          self.info[self.ip].append(self.file_path)
+        self.info[self.ip].append(self.file_path)
         ip_con_to_file = {self.ip+'_con_to_file_':os.path.abspath(setup_info['PATH'])}
       else:
         raise Exception('File ' + os.path.abspath(setup_info['PATH']) + ' does not exists')
@@ -81,6 +86,9 @@ class mies_network:
     l._gather_(self.ip,IP,ip_to_con_with=self.ip,use=ip_con_to_file)
   
   def _establish_(self,*data):
+
+    "Establishes connection between IP and file"
+
     data += tuple(f'{self.ip}')
     self.data = str(data)
     with open('data.txt','w') as file:
@@ -89,13 +97,12 @@ class mies_network:
     
     if 'PATH' in self.setup:
       if os.path.exists(self.setup['PATH']):
-        if self.assign == True:
-          with open('data.json','w') as file:
-            data = self.info
-            to_json = json.dumps(data,indent=2,sort_keys=False)
-            file.write(to_json)
-            file.close()
-          _get_extra_(self.info)
+        with open('data.json','w') as file:
+          data = self.info
+          to_json = json.dumps(data,indent=2,sort_keys=False)
+          file.write(to_json)
+          file.close()
+        _get_extra_(self.info)
         s(3)
         print('Successfully connected to ' + os.path.abspath(self.setup['PATH']))
         subprocess.call('exit 1', shell=True)
