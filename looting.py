@@ -1,4 +1,4 @@
-"This file is the looting point for connections to and from the IP address"
+"This file is the looting point for connectiong to and from the IP address"
 import os, json, subprocess
 from colorama import Fore,Style
 from time import sleep as s
@@ -47,7 +47,7 @@ class connect:
 
 
   def _connect_(self):
-    global DATA
+    global DATA, CONNECTION_WITH
     """
     This will follow through with the status of the connection
     """
@@ -55,9 +55,27 @@ class connect:
     if os.path.exists(os.path.abspath('data.json')):
       is_a_path = True
     if is_a_path == True and self.con_info['con_to_file_through_ip'] in DATA:
-      print('connection complete. connection with ' + str(self.con_info['con_to_file_through_ip']) + ' to ' + str(DATA[self.con_info['con_to_file_through_ip']][0]))
+      if len(DATA[self.con_info['con_to_file_through_ip']]) > 1:
+        for i in DATA[self.con_info['con_to_file_through_ip']]:
+          print(f'Connect to file: {i}')
+        get_file_to_con_to = input('File #: ')
+        if get_file_to_con_to == '1':file_ = DATA[self.con_info['con_to_file_through_ip']][0]
+        if get_file_to_con_to == '2':file_ = DATA[self.con_info['con_to_file_through_ip']][1]
+        print('connection complete. connection with ' + str(self.con_info['con_to_file_through_ip']) + ' to ' + str(file_))
+        CONNECTION_WITH.append([self.con_info['con_to_file_through_ip'],file_])
+      else:
+        print('connection complete. connection with ' + str(self.con_info['con_to_file_through_ip']) + ' to ' + str(DATA[self.con_info['con_to_file_through_ip']][0]))
+        CONNECTION_WITH.append([self.con_info['con_to_file_through_ip'],DATA[self.con_info['con_to_file_through_ip']][0]])
     else:
       if self.con_info['con_to_file_through_ip'] == self.IP:
         print('connection complete. connection with ' + self.con_info['con_to_file_through_ip'] + ' to ' + self.data['use'][self.con_info['con_to_file_through_ip']+'_con_to_file_'])
+        CONNECTION_WITH.append([self.con_info['con_to_file_through_ip'],self.data['use'][self.con_info['con_to_file_through_ip']+'_con_to_file_']])
       else:
         print("Can't connect to a file through ip " + self.con_info['con_to_file_through_ip'])
+        CONNECTION_WITH.append(['connection to ' + self.con_info['con_to_file_through_ip'] + ' failed'])
+    with open('complete_connection.json','w') as file:
+      file_info = {'connection_data':{'IP':CONNECTION_WITH[0][0],'connect_to_file':CONNECTION_WITH[0][1]}}
+      to_json = json.dumps(file_info,indent=2,sort_keys=False)
+      file.write(to_json)
+      file.close()
+    subprocess.call('exit 1',shell=True)
