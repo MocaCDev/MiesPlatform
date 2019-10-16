@@ -17,7 +17,7 @@ class mies_network:
   # MiesPlatform will run off of this IP
   def _set_ip_(self):
     print(Fore.RED + Style.BRIGHT + '[-]' + Fore.WHITE + ' Setup IP not complete...')
-    print(Style.BRIGHT + Fore.RED + '[-]' + Fore.WHITE + ' Connectino to IP not complete...')
+    print(Style.BRIGHT + Fore.RED + '[-]' + Fore.WHITE + ' Connection to IP not complete...')
     print('\n\n')
     s(3.6)
 
