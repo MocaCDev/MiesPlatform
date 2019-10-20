@@ -40,8 +40,9 @@ class connect:
     connect_file_through = input('\nConnect to file through ip [1,2,3] >> ')
 
     if connect_file_through == '1':ip_to_con_with = self._all_ip[0]
-    if connect_file_through == '2':ip_to_con_with = self._all_ip[1]
-    if connect_file_through == '3':ip_to_con_with = self._all_ip[2]
+    elif connect_file_through == '2':ip_to_con_with = self._all_ip[1]
+    elif connect_file_through == '3':ip_to_con_with = self._all_ip[2]
+    else:raise Exception('choice ' + connect_file_through + ' does not contain an IP address')
 
     self.con_info = {'con_to_file_through_ip':ip_to_con_with}
 
@@ -51,6 +52,7 @@ class connect:
     """
     This will follow through with the status of the connection
     """
+    os.system('cd')
     # Opening data.json if it exists
     if os.path.exists(os.path.abspath('data.json')):
       is_a_path = True
