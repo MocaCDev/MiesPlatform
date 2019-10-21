@@ -16,7 +16,7 @@ class mies_network:
 
   # MiesPlatform will run off of this IP
   def _set_ip_(self):
-    self.path = '/data/data/com.termux/files/usr/bin'
+    self.path = os.environ.get('HOME')
 
     print(Fore.RED + Style.BRIGHT + '[-]' + Fore.WHITE + ' Setup IP not complete...')
     print(Style.BRIGHT + Fore.RED + '[-]' + Fore.WHITE + ' Connection to IP not complete...')
@@ -40,7 +40,7 @@ class mies_network:
         raise Exception('Cannot do 1 connection, must be 2 or 3')
       if how_many == '2':
         for i in range(2):
-          self.path = '/data/data/com.termux/files/usr/bin'
+          self.path = os.environ.get('HOME')
           os.system('clear && cd')
           os.system('echo "\n" && ls')
           folder_name = input('\nName of folder which contains the file: ')
@@ -57,7 +57,7 @@ class mies_network:
         if os.path.exists(os.path.abspath(d[0])) and os.path.exists(os.path.abspath(d[1])):self.info = {IP[0]:[os.path.abspath(d[0])],IP[1]:[os.path.abspath(d[1])]}
       elif how_many == '3':
         for i in range(3):
-          self.path = '/data/data/com.termux/files/usr/bin'
+          self.path = os.environ.get('HOME')
           os.system('clear && cd')
           os.system('echo "\n" && ls')
           folder_name = input('\nName of folder which contains the file: ')
