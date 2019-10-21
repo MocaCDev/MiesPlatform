@@ -6,6 +6,8 @@ from mies_net import mies_network
 
 s = mies_network()
 
+MAIN_PATH = '/home/runner'
+
 if not os.path.isfile(os.path.abspath('data.json')) or not os.path.isfile(os.path.abspath('complete_connection.json')):
   s._set_ip_()
 
@@ -13,13 +15,23 @@ if not os.path.isfile(os.path.abspath('data.json')) or not os.path.isfile(os.pat
 
   if type_ == 'c':
     file_to_create = input(Fore.BLUE + 'Create file: ')
-    if os.path.exists(file_to_create):
+    check_path = os.path.join(MAIN_PATH,file_to_create)
+    if os.path.exists(check_path):
       raise Exception("Path " + os.path.abspath(file_to_create) + " already exists\n\n" + "File Reader Gathered:\n " + open(os.path.abspath(file_to_create),'r').read())
     s._gather_(create_path=file_to_create)
     s._establish_('created ' + os.path.abspath(file_to_create))
   if type_ == 'u':
+    os.system('clear && cd')
+    os.system('echo "\n" && ls')
+    folder_name = input('\nName of folder which contains the file: ')
+    if folder_name != '':
+      MAIN_PATH = MAIN_PATH + '/' + folder_name
+      os.system(f'cd {os.path.abspath(MAIN_PATH)} && echo "\n" && ls')
+    else:
+      os.system('cd && echo "\n" && ls')
     file_name = input(Fore.BLUE + 'Existing Filename: ')
-    s._gather_(PATH=file_name)
+    _PATH_ = os.path.join(MAIN_PATH,file_name)
+    s._gather_(PATH=_PATH_)
     s._establish_('connected to ' + os.path.abspath(file_name))
   else:
     raise Exception('The choice ' + type_ + ' is not a valid choice')
