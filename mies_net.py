@@ -16,6 +16,8 @@ class mies_network:
 
   # MiesPlatform will run off of this IP
   def _set_ip_(self):
+    self.path = '/home/runner'
+
     print(Fore.RED + Style.BRIGHT + '[-]' + Fore.WHITE + ' Setup IP not complete...')
     print(Style.BRIGHT + Fore.RED + '[-]' + Fore.WHITE + ' Connection to IP not complete...')
     print('\n\n')
@@ -38,17 +40,35 @@ class mies_network:
         raise Exception('Cannot do 1 connection, must be 2 or 3')
       if how_many == '2':
         for i in range(2):
+          self.path = '/home/runner'
+          os.system('clear && cd')
+          os.system('echo "\n" && ls')
+          folder_name = input('\nName of folder which contains the file: ')
+          if folder_name != '':
+            self.path = self.path + '/' + folder_name
+            os.system(f'cd {os.path.abspath(self.path)} && echo "\n" && ls')
+          else:
+            os.system('clear && cd && echo "\n" && ls')
           file_name = input(f'File {i+1}: ')
-          d.append(file_name)
-        os.system('cd')
+          self.path = os.path.join(self.path, file_name)
+          d.append(self.path)
         if not os.path.exists(os.path.abspath(d[0])):raise NotADirectoryError('No such directory ' + os.path.abspath(d[0]))
         if not os.path.exists(os.path.abspath(d[1])):raise NotADirectoryError('No such directory ' + os.path.abspath(d[1]))
         if os.path.exists(os.path.abspath(d[0])) and os.path.exists(os.path.abspath(d[1])):self.info = {IP[0]:[os.path.abspath(d[0])],IP[1]:[os.path.abspath(d[1])]}
-      if how_many == '3':
+      elif how_many == '3':
         for i in range(3):
+          self.path = '/home/runner'
+          os.system('clear && cd')
+          os.system('echo "\n" && ls')
+          folder_name = input('\nName of folder which contains the file: ')
+          if folder_name != '':
+            self.path = self.path + '/' + folder_name
+            os.system(f'cd {os.path.abspath(self.path)} && echo "\n" && ls')
+          else:
+            os.system('clear && cd && echo "\n" && ls')
           file_name = input(f'File {i+1}: ')
-          d.append(file_name)
-        os.system('cd')
+          self.path = os.path.join(self.path, file_name)
+          d.append(self.path)
         if not os.path.exists(os.path.abspath(d[0])):raise NotADirectoryError('No such directory ' + os.path.abspath(d[0]))
         if not os.path.exists(os.path.abspath(d[1])):raise NotADirectoryError('No such directory ' + os.path.abspath(d[1]))
         if not os.path.exists(os.path.abspath(d[2])):raise NotADirectoryError('No such directory ' + os.path.abspath(d[2]))
@@ -75,8 +95,6 @@ class mies_network:
     "Gathers information to setup the IP file connection officialy"
 
     if 'PATH' in setup_info:
-      os.system('cd')
-      print(os.path.abspath(setup_info['PATH']))
       if os.path.exists(setup_info['PATH']):
         self.file_path = os.path.abspath(setup_info['PATH'])
         self.info[self.ip].append(self.file_path)
@@ -84,7 +102,6 @@ class mies_network:
       else:
         raise Exception('File ' + os.path.abspath(setup_info['PATH']) + ' does not exists')
     if 'create_path' in setup_info:
-      os.system('cd')
       self.open_file = open(setup_info['create_path'],'w')
       self.open_file.close()
       if self.assing == True and self.ip in self.info:
@@ -104,7 +121,6 @@ class mies_network:
       file.close()
     
     if 'PATH' in self.setup:
-      os.system('cd')
       if os.path.exists(self.setup['PATH']):
         with open('data.json','w') as file:
           data = self.info
@@ -116,7 +132,6 @@ class mies_network:
         print('Successfully connected to ' + os.path.abspath(self.setup['PATH']))
         subprocess.call('exit 1', shell=True)
     if 'create_path' in self.setup:
-      os.system('cd')
       if os.path.exists(self.setup['create_path']):
         s(3)
         print('Successfully created ' + os.path.abspath(self.setup['create_path']))
