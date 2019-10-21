@@ -16,7 +16,7 @@ class mies_network:
 
   # MiesPlatform will run off of this IP
   def _set_ip_(self):
-    self.path = '/home/runner'
+    self.path = '/data/data/com.termux/files/usr/bin'
 
     print(Fore.RED + Style.BRIGHT + '[-]' + Fore.WHITE + ' Setup IP not complete...')
     print(Style.BRIGHT + Fore.RED + '[-]' + Fore.WHITE + ' Connection to IP not complete...')
