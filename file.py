@@ -6,7 +6,7 @@ from mies_net import mies_network
 
 s = mies_network()
 
-MAIN_PATH = '/data/data/com.termux/files/usr/bin'
+MAIN_PATH = os.environ.get('HOME')
 
 if not os.path.isfile(os.path.abspath('data.json')) or not os.path.isfile(os.path.abspath('complete_connection.json')):
   s._set_ip_()
