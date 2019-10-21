@@ -76,6 +76,7 @@ class mies_network:
 
     if 'PATH' in setup_info:
       os.system('cd')
+      print(os.path.abspath(setup_info['PATH']))
       if os.path.exists(setup_info['PATH']):
         self.file_path = os.path.abspath(setup_info['PATH'])
         self.info[self.ip].append(self.file_path)
