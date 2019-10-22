@@ -20,7 +20,7 @@ if not os.path.isfile(os.path.abspath('data.json')) or not os.path.isfile(os.pat
       raise Exception("Path " + os.path.abspath(file_to_create) + " already exists\n\n" + "File Reader Gathered:\n " + open(os.path.abspath(file_to_create),'r').read())
     s._gather_(create_path=file_to_create)
     s._establish_('created ' + os.path.abspath(file_to_create))
-  if type_ == 'u':
+  elif type_ == 'u':
     os.system('clear && cd')
     os.system('echo "\n" && ls')
     folder_name = input('\nName of folder which contains the file: ')
@@ -36,3 +36,5 @@ if not os.path.isfile(os.path.abspath('data.json')) or not os.path.isfile(os.pat
   else:
     raise Exception('The choice ' + type_ + ' is not a valid choice')
   s._START_CONNECTION_()
+if os.path.isfile(os.path.abspath('data.json')) and os.path.isfile(os.path.abspath('complete_connection.json')):
+  pass
