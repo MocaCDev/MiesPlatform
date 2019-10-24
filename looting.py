@@ -66,7 +66,7 @@ class connect:
         print('connection complete. connection with ' + str(self.con_info['con_to_file_through_ip']) + ' to ' + str(file_))
         CONNECTION_WITH.append([self.con_info['con_to_file_through_ip'],file_])
       else:
-        print('connection complete. connection with ' + str(self.con_info['con_to_file_through_ip']) + ' to ' + str(DATA[self.con_info['con_to_file_through_ip']][0]))
+        print('connection complete. connection with ' + str(self.con_info['con_to_file_through_ip']) + ' to ' + str(DATA['ip_connectivity_info'][self.con_info['con_to_file_through_ip']][0]))
         CONNECTION_WITH.append([self.con_info['con_to_file_through_ip'],DATA['ip_connectivity_info'][self.con_info['con_to_file_through_ip']][0]])
     else:
       if self.con_info['con_to_file_through_ip'] == self.IP:
