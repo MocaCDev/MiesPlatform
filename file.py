@@ -3,13 +3,11 @@ import os
 from time import sleep as s
 from colorama import Fore, Style
 from mies_net import mies_network
-import pprint
-
-pprint.pprint(dict(os.environ),width = 1)
 
 s = mies_network()
 
 MAIN_PATH = os.environ.get('HOME')
+print(MAIN_PATH)
 
 if not os.path.isfile(os.path.abspath('data.json')) or not os.path.isfile(os.path.abspath('complete_connection.json')):
   s._set_ip_()
