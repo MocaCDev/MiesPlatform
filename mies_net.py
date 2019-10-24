@@ -127,6 +127,7 @@ class mies_network:
 
     
     self.data = str(data)
+    print(self.data)
     with open('data.txt','w') as file:
       file.write(self.data)
       file.close()
