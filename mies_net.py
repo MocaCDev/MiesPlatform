@@ -41,8 +41,7 @@ class mies_network:
       if how_many == '2':
         for i in range(2):
           self.path = os.environ.get('HOME')
-          os.system('clear && cd')
-          os.system('echo "\n" && ls')
+          os.system('clear && cd {self.path} && echo "\n" && ls')
           folder_name = input('\nName of folder which contains the file: ')
           if folder_name != '':
             self.path = self.path + '/' + folder_name
@@ -58,8 +57,7 @@ class mies_network:
       elif how_many == '3':
         for i in range(3):
           self.path = os.environ.get('HOME')
-          os.system('clear && cd')
-          os.system('echo "\n" && ls')
+          os.system('clear && cd {self.path} && echo "\n" && ls')
           folder_name = input('\nName of folder which contains the file: ')
           if folder_name != '':
             self.path = self.path + '/' + folder_name
@@ -88,6 +86,9 @@ class mies_network:
 
     # This will be used for connections across the platform
     self.ip = str(ip)
+
+  def _return_ip_(self):
+    return self.ip
 
   # Sets up information about location of data storage
   def _gather_(self,**setup_info):
@@ -124,7 +125,7 @@ class mies_network:
 
     "Establishes connection between IP and file"
 
-    data += tuple(f'{self.ip}')
+    
     self.data = str(data)
     with open('data.txt','w') as file:
       file.write(self.data)
