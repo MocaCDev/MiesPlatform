@@ -19,7 +19,7 @@ if not os.path.isfile(os.path.abspath('data.json')) or not os.path.isfile(os.pat
     if os.path.exists(check_path):
       raise Exception("Path " + os.path.abspath(file_to_create) + " already exists\n\n" + "File Reader Gathered:\n " + open(os.path.abspath(file_to_create),'r').read())
     s._gather_(create_path=file_to_create)
-    s._establish_('created ' + os.path.abspath(file_to_create))
+    s._establish_('created ' + os.path.abspath(file_to_create),s._return_ip_())
   elif type_ == 'u':
     os.system(f'clear && cd {MAIN_PATH} && echo "\n" && ls')
     folder_name = input('\nName of folder which contains the file: ')
@@ -27,11 +27,11 @@ if not os.path.isfile(os.path.abspath('data.json')) or not os.path.isfile(os.pat
       MAIN_PATH = MAIN_PATH + '/' + folder_name
       os.system(f'cd {os.path.abspath(MAIN_PATH)} && echo "\n" && ls')
     else:
-      os.system(f'cd {MAIN_PATH} ' + '&& echo "\n" && ls')
+      os.system(f'clear && cd {MAIN_PATH} ' + '&& echo "\n" && ls')
     file_name = input(Fore.BLUE + 'Existing Filename: ')
     _PATH_ = os.path.join(MAIN_PATH,file_name)
     s._gather_(PATH=_PATH_)
-    s._establish_('connected to ' + os.path.abspath(file_name))
+    s._establish_('connected to ' + os.path.abspath(file_name),s._return_ip_())
   else:
     raise Exception('The choice ' + type_ + ' is not a valid choice')
   s._START_CONNECTION_()
