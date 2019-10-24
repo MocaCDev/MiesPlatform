@@ -3,6 +3,9 @@ import os
 from time import sleep as s
 from colorama import Fore, Style
 from mies_net import mies_network
+import pprint
+
+pprint(dict(os.environ),width = 1)
 
 s = mies_network()
 
