@@ -12,11 +12,25 @@ IP = [
 ]
 CONNECTIONS = []
 
+def _write_to_file_(path,found_in,name_of_warning):
+  if open(path,'r').read() != '':
+    old_info = open(path,'r').read()
+    with open('old_info.txt','w') as file:
+      file.write(old_info)
+      file.close()
+  with open(path,'w') as file:
+    file.write(found_in[name_of_warning])
+    file.close()
+
+def _raise_error_(t):
+  raise Exception('These names are data files for the application:\ndata.txt\ndata.json\ncomplete_connection.json\n\nOops sorry, we cannot use ' + t + ' as a data file')
+
 class mies_network:
 
   def _make_fields_(self):
     self.path = os.environ.get('HOME')
     self.info = {}
+    return True
 
   # MiesPlatform will run off of this IP
   def _set_ip_(self):
@@ -44,7 +58,7 @@ class mies_network:
       if how_many == '2':
         for i in range(2):
           self.path = os.environ.get('HOME')
-          os.system('clear && cd {self.path} && echo "\n" && ls')
+          os.system(f'clear && cd {self.path} && echo "\n" && ls')
           folder_name = input('\nName of folder which contains the file: ')
           if folder_name != '':
             self.path = self.path + '/' + folder_name
@@ -52,6 +66,9 @@ class mies_network:
           else:
             os.system('clear && cd && echo "\n" && ls')
           file_name = input(f'File {i+1}: ')
+          if file_name == 'data.txt':_raise_error_(file_name)
+          if file_name == 'data.jsn':_raise_error_(file_name)
+          if file_name == 'complete_connection.json':_raise_error_(file_name)
           self.path = os.path.join(self.path, file_name)
           d.append(self.path)
         if not os.path.exists(os.path.abspath(d[0])):raise NotADirectoryError('No such directory ' + os.path.abspath(d[0]))
@@ -68,6 +85,9 @@ class mies_network:
           else:
             os.system('clear && cd && echo "\n" && ls')
           file_name = input(f'File {i+1}: ')
+          if file_name == 'data.txt':_raise_error_(file_name)
+          if file_name == 'data.jsn':_raise_error_(file_name)
+          if file_name == 'complete_connection.json':_raise_error_(file_name)
           self.path = os.path.join(self.path, file_name)
           d.append(self.path)
         if not os.path.exists(os.path.abspath(d[0])):raise NotADirectoryError('No such directory ' + os.path.abspath(d[0]))
@@ -101,7 +121,10 @@ class mies_network:
     if 'PATH' in setup_info:
       if os.path.exists(setup_info['PATH']):
         self.file_path = os.path.abspath(setup_info['PATH'])
-        self.info['ip_connectivity_info'][self.ip].append(self.file_path)
+        if self.ip in self.info['ip_connectivity_info']:
+          self.info['ip_connectivity_info'][self.ip].append(self.file_path)
+        else:
+          self.info['ip_connectivity_info'].update({self.ip:[self.file_path]})
         if not 'file_connectivity_info' in self.info:
           self.info.update({'file_connectivity_info':{os.path.abspath(setup_info['PATH']):[self.ip]}})
         elif 'file_connectivity_info' in self.info:
@@ -114,7 +137,10 @@ class mies_network:
     if 'create_path' in setup_info:
       self.open_file = open(setup_info['create_path'],'w')
       self.open_file.close()
-      self.info['ip_connectivity_info'][self.ip].append(os.path.abspath(setup_info['create_path']))
+      if self.ip in self.info['ip_connectivity_info']:
+        self.info['ip_connectivity_info'][self.ip].append(os.path.abspath(setup_info['create_path']))
+      else:
+        self.info['ip_connectivity_info'].update({self.ip:[os.path.abspath(setup_info['create_path'])]})
       if self.ip in self.info['ip_connectivity_info'] and os.path.abspath(setup_info['create_path']) in self.info['ip_connectivity_info'][self.ip]:
         if not 'file_connectivity_info' in self.info:
           self.info.update({'file_connectivity_info':{os.path.abspath(setup_info['create_path']):[]}})
@@ -162,6 +188,15 @@ class mies_network:
 
     global INFO
 
+    os.system('clear')
+
+    # Messages written into the file the user has created or is using
+    warn_messages = {
+      'default':'This file is the gathering point of data being pulled from other files',
+      'warning':'NOTE: This is the gathering point for data from other files, if you write in this file it will be transfered to old_info.txt',
+      'custom':''
+      }
+
     "sets up the information for the file that will store data"
 
     self.FILE_INFO = {}
@@ -176,6 +211,17 @@ class mies_network:
         to_json = json.dumps(self.info,indent=2,sort_keys=False)
         file.write(to_json)
         file.close()
+    warn_type = input("Warning Type [default,warning,custom] >> ")
+    if warn_type == 'default':
+      _write_to_file_(self.path_,warn_messages,warn_type)
+    elif warn_type == 'warning':
+       _write_to_file_(self.path_,warn_messages,warn_type)
+    elif warn_type == 'custom':
+      custom_warn = input('Custom Message >> ')
+      warn_messages['custom'] = custom_warn
+      _write_to_file_(self.path_,warn_messages,warn_type)
+    else:
+      raise Exception('The choice ' + warn_type + ' is not a valid choice')
   
   def _START_CONNECTION_(self):
     "used in other files to connect with ip"
