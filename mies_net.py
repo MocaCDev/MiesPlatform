@@ -14,9 +14,12 @@ CONNECTIONS = []
 
 class mies_network:
 
+  def _make_fields_(self):
+    self.path = os.environ.get('HOME')
+    self.info = {}
+
   # MiesPlatform will run off of this IP
   def _set_ip_(self):
-    self.path = os.environ.get('HOME')
 
     print(Fore.RED + Style.BRIGHT + '[-]' + Fore.WHITE + ' Setup IP not complete...')
     print(Style.BRIGHT + Fore.RED + '[-]' + Fore.WHITE + ' Connection to IP not complete...')
@@ -53,7 +56,7 @@ class mies_network:
           d.append(self.path)
         if not os.path.exists(os.path.abspath(d[0])):raise NotADirectoryError('No such directory ' + os.path.abspath(d[0]))
         if not os.path.exists(os.path.abspath(d[1])):raise NotADirectoryError('No such directory ' + os.path.abspath(d[1]))
-        if os.path.exists(os.path.abspath(d[0])) and os.path.exists(os.path.abspath(d[1])):self.info = {'ip_connectivity_info':{IP[0]:[os.path.abspath(d[0])],IP[1]:[os.path.abspath(d[1])]},'file_connectivity_info':{os.path.abspath(d[0]):[IP[0]],os.path.abspath(d[1]):[IP[1]]}}
+        if os.path.exists(os.path.abspath(d[0])) and os.path.exists(os.path.abspath(d[1])):self.info.update({'ip_connectivity_info':{IP[0]:[os.path.abspath(d[0])],IP[1]:[os.path.abspath(d[1])]},'file_connectivity_info':{os.path.abspath(d[0]):[IP[0]],os.path.abspath(d[1]):[IP[1]]}})
       elif how_many == '3':
         for i in range(3):
           self.path = os.environ.get('HOME')
@@ -70,7 +73,7 @@ class mies_network:
         if not os.path.exists(os.path.abspath(d[0])):raise NotADirectoryError('No such directory ' + os.path.abspath(d[0]))
         if not os.path.exists(os.path.abspath(d[1])):raise NotADirectoryError('No such directory ' + os.path.abspath(d[1]))
         if not os.path.exists(os.path.abspath(d[2])):raise NotADirectoryError('No such directory ' + os.path.abspath(d[2]))
-        if os.path.exists(os.path.abspath(d[0])) and os.path.exists(os.path.abspath(d[1])) and os.path.exists(os.path.abspath(d[2])):self.info = {'ip_connectivity_info':{IP[0]:[os.path.abspath(d[0])],IP[1]:[os.path.abspath(d[1])],IP[2]:[os.path.abspath(d[2])]},'file_connectivity_info':{os.path.abspath(d[0]):[IP[0]],os.path.abspath(d[1]):[IP[1]],os.path.abspath(d[2]):[IP[2]]}}
+        if os.path.exists(os.path.abspath(d[0])) and os.path.exists(os.path.abspath(d[1])) and os.path.exists(os.path.abspath(d[2])):self.info.update({'ip_connectivity_info':{IP[0]:[os.path.abspath(d[0])],IP[1]:[os.path.abspath(d[1])],IP[2]:[os.path.abspath(d[2])]},'file_connectivity_info':{os.path.abspath(d[0]):[IP[0]],os.path.abspath(d[1]):[IP[1]],os.path.abspath(d[2]):[IP[2]]}})
       else:raise Exception('There is a max of 3 IP connections available, cannot assign ' + how_many + ' connections')
     elif assign == 'n':self.assign = False
     else:raise Exception('Choice ' + assign + ' is not a valid choice')
@@ -100,11 +103,12 @@ class mies_network:
         self.file_path = os.path.abspath(setup_info['PATH'])
         self.info['ip_connectivity_info'][self.ip].append(self.file_path)
         if not 'file_connectivity_info' in self.info:
-          self.info.update({'file_connectivity_info':{os.path.abspath(setup_info['PATH']):self.ip}})
+          self.info.update({'file_connectivity_info':{os.path.abspath(setup_info['PATH']):[self.ip]}})
         elif 'file_connectivity_info' in self.info:
           if not self.ip in self.info['file_connectivity_info'][os.path.abspath(setup_info['PATH'])]:
             self.info['file_connectivity_info'][os.path.abspath(setup_info['PATH'])].append(self.ip)
         ip_con_to_file = {self.ip+'_con_to_file_':os.path.abspath(setup_info['PATH'])}
+        self.path_ = setup_info['PATH']
       else:
         raise Exception('File ' + os.path.abspath(setup_info['PATH']) + ' does not exists')
     if 'create_path' in setup_info:
@@ -118,6 +122,7 @@ class mies_network:
           self.info['file_connectivity_info'].update({os.path.abspath(setup_info['create_path']):[]})
         if not self.ip in self.info['file_connectivity_info'][os.path.abspath(setup_info['create_path'])]:self.info['file_connectivity_info'][os.path.abspath(setup_info['create_path'])].append(self.ip)
       ip_con_to_file = {self.ip+'_con_to_file_':os.path.abspath(setup_info['create_path'])}
+      self.path_ = setup_info['create_path']
     self.setup = setup_info
     l._gather_(self.ip,IP,ip_to_con_with=self.ip,use=ip_con_to_file)
   
@@ -152,6 +157,25 @@ class mies_network:
         s(3)
         print('Successfully created ' + os.path.abspath(self.setup['create_path']) + " \nSuccessfully connected " + str(self.info['ip_connectivity_info'][self.ip]) + " to IP address " + self.ip)
         subprocess.call('exit 1', shell=True)
+  
+  def file_info(self):
+
+    global INFO
+
+    "sets up the information for the file that will store data"
+
+    self.FILE_INFO = {}
+    get_amount_of_bytes = int(input('Amount of bytes the file will accept from other bytes (must be 1000 and up) >> '))
+    if get_amount_of_bytes < 1000:
+      raise Exception(str(get_amount_of_bytes) + ' is too low to store much, if any, data')
+    if get_amount_of_bytes > 999:
+      self.FILE_INFO.update({'total_bytes':get_amount_of_bytes})
+      self.info.update({'using':{'ip':self.info['file_connectivity_info'][self.path_][0],'file':self.info['ip_connectivity_info'][self.ip][0]}})
+      self.info['using'].update(self.FILE_INFO)
+      with open('data.json','w') as file:
+        to_json = json.dumps(self.info,indent=2,sort_keys=False)
+        file.write(to_json)
+        file.close()
   
   def _START_CONNECTION_(self):
     "used in other files to connect with ip"
