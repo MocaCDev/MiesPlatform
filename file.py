@@ -6,6 +6,8 @@ from mies_net import mies_network
 
 s = mies_network()
 
+s._make_fields_()
+
 MAIN_PATH = os.environ.get('HOME')
 
 if not os.path.isfile(os.path.abspath('data.json')) or not os.path.isfile(os.path.abspath('complete_connection.json')):
@@ -35,5 +37,6 @@ if not os.path.isfile(os.path.abspath('data.json')) or not os.path.isfile(os.pat
   else:
     raise Exception('The choice ' + type_ + ' is not a valid choice')
   s._START_CONNECTION_()
+  s.file_info()
 if os.path.isfile(os.path.abspath('data.json')) and os.path.isfile(os.path.abspath('complete_connection.json')):
   pass
