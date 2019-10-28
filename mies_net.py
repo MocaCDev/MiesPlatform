@@ -227,3 +227,15 @@ class mies_network:
     "used in other files to connect with ip"
     l._start_()
     l._connect_()
+  
+  def _append_connections_(self):
+
+    "will append network information for file connections"
+
+    get_data = json.loads(open('data.json','r').read())
+    con_data = json.loads(open('complete_connection.json','r').read())
+    
+    if get_data['using']['ip'] == con_data['ip_connection_data']['IP']:
+      print('Connection has been established, IP ' + get_data['using']['ip'] + ' in use with file ' + get_data['using']['file'] + f'\nOld Info: {open("old_info.txt","r").read()}\nTRANSFERED INTO: old_info.txt' + '\n\nWARNING:\n' + open(get_data['using']['file'],'r').read())
+      s(4.2)
+      subprocess.call('clear',shell=True)
