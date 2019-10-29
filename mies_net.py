@@ -11,6 +11,15 @@ IP = [
   "130.8.9.1"
 ]
 CONNECTIONS = []
+# The IP connection will be linked with a key so that another IP address can connect to the active IP address and send/receive information
+IP_KEYS = {}
+default_keys = [
+  'default_01',
+  'aub87yu',
+  'uyghb89',
+  'ughji89',
+  'auuouhj'
+]
 
 def _write_to_file_(path,found_in,name_of_warning):
   if open(path,'r').read() != '':
@@ -77,7 +86,7 @@ class mies_network:
       elif how_many == '3':
         for i in range(3):
           self.path = os.environ.get('HOME')
-          os.system('clear && cd {self.path} && echo "\n" && ls')
+          os.system(f'clear && cd {self.path} && echo "\n" && ls')
           folder_name = input('\nName of folder which contains the file: ')
           if folder_name != '':
             self.path = self.path + '/' + folder_name
@@ -239,3 +248,27 @@ class mies_network:
       print('Connection has been established, IP ' + get_data['using']['ip'] + ' in use with file ' + get_data['using']['file'] + f'\nOld Info: {open("old_info.txt","r").read()}\nTRANSFERED INTO: old_info.txt' + '\n\nWARNING:\n' + open(get_data['using']['file'],'r').read())
       s(4.2)
       subprocess.call('clear',shell=True)
+    
+    for i in range(len(IP)):
+      if IP[i] in get_data['ip_connectivity_info']:
+        if len(get_data['ip_connectivity_info'][IP[i]]) == 1:
+          print(IP[i] + ' connects to ' + get_data['ip_connectivity_info'][IP[i]][0])
+        else:
+          print(IP[i] + ' connects to ' + str(get_data['ip_connectivity_info'][IP[i]]))
+        get_key = input('\nKey for IP ' + IP[i] + '[press enter if you want a default key] >> ')
+        if get_key == '':
+          get_key = default_keys[0]
+          del(default_keys[0])
+        get_data['ip_connectivity_info'][IP[i]].append({'ip_key':get_key})
+        for j in get_data['file_connectivity_info']:
+          if j in get_data['ip_connectivity_info'][IP[i]]:
+            get_data['file_connectivity_info'][j].append({'ip_key':get_key})
+            IP_KEYS.update({IP[i]:get_key})
+             
+        if IP[i] == get_data['using']['ip']:
+          get_data['using'].update({'ip_key':get_key})
+
+        with open('data.json','w') as file:
+          to_json = json.dumps(get_data,indent=2,sort_keys=False)
+          file.write(to_json)
+          file.close()
