@@ -22,13 +22,19 @@ default_keys = [
 ]
 
 def _write_to_file_(path,found_in,name_of_warning):
+  if '.yaml' in path:
+    msg = f'Message:\n  -{found_in[name_of_warning]}'
+  elif '.json' in path:
+    msg = json.dumps({'message':found_in[name_of_warning]},indent=True,sort_keys=False)
+  else:
+    msg = found_in[name_of_warning]
   if open(path,'r').read() != '':
     old_info = open(path,'r').read()
     with open('old_info.txt','w') as file:
       file.write(old_info)
       file.close()
   with open(path,'w') as file:
-    file.write(found_in[name_of_warning])
+    file.write(msg)
     file.close()
 
 def _raise_error_(t):
@@ -95,7 +101,7 @@ class mies_network:
             os.system('clear && cd && echo "\n" && ls')
           file_name = input(f'File {i+1}: ')
           if file_name == 'data.txt':_raise_error_(file_name)
-          if file_name == 'data.jsn':_raise_error_(file_name)
+          if file_name == 'data.json':_raise_error_(file_name)
           if file_name == 'complete_connection.json':_raise_error_(file_name)
           self.path = os.path.join(self.path, file_name)
           d.append(self.path)
@@ -137,6 +143,8 @@ class mies_network:
         if not 'file_connectivity_info' in self.info:
           self.info.update({'file_connectivity_info':{os.path.abspath(setup_info['PATH']):[self.ip]}})
         elif 'file_connectivity_info' in self.info:
+          if not os.path.abspath(setup_info['PATH']) in self.info['file_connectivity_info']:
+            self.info['file_connectivity_info'].update({os.path.abspath(setup_info['PATH']):[self.ip]})
           if not self.ip in self.info['file_connectivity_info'][os.path.abspath(setup_info['PATH'])]:
             self.info['file_connectivity_info'][os.path.abspath(setup_info['PATH'])].append(self.ip)
         ip_con_to_file = {self.ip+'_con_to_file_':os.path.abspath(setup_info['PATH'])}
@@ -249,27 +257,31 @@ class mies_network:
       print('Connection has been established, IP ' + get_data['using']['ip'] + ' in use with file ' + get_data['using']['file'] + f'\nOld Info: {open("old_info.txt","r").read()}\nTRANSFERED INTO: old_info.txt' + '\n\nWARNING:\n' + open(get_data['using']['file'],'r').read())
       s(4.2)
       subprocess.call('clear',shell=True)
-    
-    for i in range(len(IP)):
-      if IP[i] in get_data['ip_connectivity_info']:
-        if len(get_data['ip_connectivity_info'][IP[i]]) == 1:
-          print(IP[i] + ' connects to ' + get_data['ip_connectivity_info'][IP[i]][0])
-        else:
-          print(IP[i] + ' connects to ' + str(get_data['ip_connectivity_info'][IP[i]]))
-        get_key = input('\nKey for IP ' + IP[i] + '[press enter if you want a default key] >> ')
-        if get_key == '':
-          get_key = default_keys[0]
-          del(default_keys[0])
-        get_data['ip_connectivity_info'][IP[i]].append({'ip_key':get_key})
-        for j in get_data['file_connectivity_info']:
-          if j in get_data['ip_connectivity_info'][IP[i]]:
-            get_data['file_connectivity_info'][j].append({'ip_key':get_key})
-            IP_KEYS.update({IP[i]:get_key})
-             
-        if IP[i] == get_data['using']['ip']:
-          get_data['using'].update({'ip_key':get_key})
+    if not 'ip_key' in get_data['file_connectivity_info'][get_data['using']['file']][1]:
+      for i in range(len(IP)):
+        if IP[i] in get_data['ip_connectivity_info']:
+          if len(get_data['ip_connectivity_info'][IP[i]]) == 1:
+            print(IP[i] + ' connects to ' + get_data['ip_connectivity_info'][IP[i]][0])
+          else:
+            print(IP[i] + ' connects to ' + str(get_data['ip_connectivity_info'][IP[i]]))
+          get_key = input('\nKey for IP ' + IP[i] + '[press enter if you want a default key] >> ')
+          if get_key == '':
+            get_key = default_keys[0]
+            del(default_keys[0])
+          get_data['ip_connectivity_info'][IP[i]].append({'ip_key':get_key})
+          for j in get_data['file_connectivity_info']:
+            if j in get_data['ip_connectivity_info'][IP[i]]:
+              get_data['file_connectivity_info'][j] = IP[i],{'ip_key':get_key}
+              print(get_data['file_connectivity_info'][j])
+              IP_KEYS.update({IP[i]:get_key})
+              
+          if IP[i] == get_data['using']['ip']:
+            get_data['using'].update({'ip_key':get_key})
+          else:
+            if get_data['using']['file'] in get_data['ip_connectivity_info'][IP[i]]:
+              get_data['using'].update({'ip_key':get_key})
 
-        with open('data.json','w') as file:
-          to_json = json.dumps(get_data,indent=2,sort_keys=False)
-          file.write(to_json)
-          file.close()
+          with open('data.json','w') as file:
+            to_json = json.dumps(get_data,indent=2,sort_keys=False)
+            file.write(to_json)
+            file.close()
