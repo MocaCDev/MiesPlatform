@@ -50,4 +50,4 @@ if not os.path.isfile(os.path.abspath('data.json')) or not os.path.isfile(os.pat
   s._START_CONNECTION_()
   s.file_info()
 if os.path.isfile(os.path.abspath('data.json')) and os.path.isfile(os.path.abspath('complete_connection.json')):
-  pass
+  s._append_connections_()
