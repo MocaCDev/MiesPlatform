@@ -61,7 +61,7 @@ class connect:
         for i in DATA['ip_connectivity_info'][self.con_info['con_to_file_through_ip']]:
           print(f'Connect to file: {i}')
         get_file_to_con_to = input('File #: ')
-        if get_file_to_con_to == '1':file_ = DATA['ip_connectivity_info'][self.con_info['con_to_file_through_ip']][0]
+        if get_file_to_con_to == '1':self.file_ = DATA['ip_connectivity_info'][self.con_info['con_to_file_through_ip']][0]
         if get_file_to_con_to == '2':file_ = DATA['ip_connectivity_info'][self.con_info['con_to_file_through_ip']][1]
         print('connection complete. connection with ' + str(self.con_info['con_to_file_through_ip']) + ' to ' + str(file_))
         CONNECTION_WITH.append([self.con_info['con_to_file_through_ip'],file_])
@@ -82,5 +82,12 @@ class connect:
       to_json = json.dumps(file_info,indent=2,sort_keys=False)
       file.write(to_json)
       file.close()
-
+  
     subprocess.call('exit 1',shell=True)
+  
+  def _return_file_(self):
+
+    "returns the file we are using as the gathering point for data transfering"
+    
+    open_ = json.loads(open('complete_connection.json','r').read())
+    return open_['ip_connection_data']['connect_to_file']
