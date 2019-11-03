@@ -222,7 +222,7 @@ class mies_network:
       raise Exception(str(get_amount_of_bytes) + ' is too low to store much, if any, data')
     if get_amount_of_bytes > 999:
       self.FILE_INFO.update({'total_bytes':get_amount_of_bytes})
-      self.info.update({'using':{'ip':self.info['file_connectivity_info'][self.path_][0],'file':self.info['ip_connectivity_info'][self.ip][0]}})
+      self.info.update({'using':{'ip':self.info['file_connectivity_info'][self.path_][0],'file':l._return_file_()}})
       self.info['using'].update(self.FILE_INFO)
       with open('data.json','w') as file:
         to_json = json.dumps(self.info,indent=2,sort_keys=False)
@@ -257,13 +257,9 @@ class mies_network:
       print('Connection has been established, IP ' + get_data['using']['ip'] + ' in use with file ' + get_data['using']['file'] + f'\nOld Info: {open("old_info.txt","r").read()}\nTRANSFERED INTO: old_info.txt' + '\n\nWARNING:\n' + open(get_data['using']['file'],'r').read())
       s(4.2)
       subprocess.call('clear',shell=True)
-    if not 'ip_key' in get_data['file_connectivity_info'][get_data['using']['file']][1]:
+    if not 'ip_key' in get_data['using']:
       for i in range(len(IP)):
         if IP[i] in get_data['ip_connectivity_info']:
-          if len(get_data['ip_connectivity_info'][IP[i]]) == 1:
-            print(IP[i] + ' connects to ' + get_data['ip_connectivity_info'][IP[i]][0])
-          else:
-            print(IP[i] + ' connects to ' + str(get_data['ip_connectivity_info'][IP[i]]))
           get_key = input('\nKey for IP ' + IP[i] + '[press enter if you want a default key] >> ')
           if get_key == '':
             get_key = default_keys[0]
@@ -272,9 +268,13 @@ class mies_network:
           for j in get_data['file_connectivity_info']:
             if j in get_data['ip_connectivity_info'][IP[i]]:
               get_data['file_connectivity_info'][j] = IP[i],{'ip_key':get_key}
-              print(get_data['file_connectivity_info'][j])
+              #print(get_data['file_connectivity_info'][j])
               IP_KEYS.update({IP[i]:get_key})
-              
+          
+          if len(get_data['ip_connectivity_info'][IP[i]]) == 1:
+            print(IP[i] + ' connects to ' + get_data['ip_connectivity_info'][IP[i]][0])
+          else:
+            print(IP[i] + ' connects to ' + str(get_data['ip_connectivity_info'][IP[i]]))
           if IP[i] == get_data['using']['ip']:
             get_data['using'].update({'ip_key':get_key})
           else:
