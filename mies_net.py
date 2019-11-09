@@ -2,8 +2,10 @@ import subprocess, os, json
 from time import sleep as s
 from colorama import Fore, Style
 from looting import connect, _get_extra_
+from database import database
 
 l = connect()
+d = database()
 
 IP = [
   "127.0.0.1",
@@ -45,6 +47,7 @@ class mies_network:
   def _make_fields_(self):
     self.path = os.environ.get('HOME')
     self.info = {}
+    d._setup_sql_database_()
     return True
 
   # MiesPlatform will run off of this IP
@@ -168,6 +171,7 @@ class mies_network:
       self.path_ = setup_info['create_path']
     self.setup = setup_info
     l._gather_(self.ip,IP,ip_to_con_with=self.ip,use=ip_con_to_file)
+    d._insert_into_table_(1,IP=[self.ip],FILE=self.info['ip_connectivity_info'][self.ip])
   
   def _establish_(self,*data):
 
