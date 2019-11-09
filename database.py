@@ -8,7 +8,7 @@ class database:
 
   def _setup_sql_database_(self):
 
-    "setting db server to true"
+    "setting db server to true and gets path of database.db"
 
     self.db_server = True
     # PATH TO database.db
