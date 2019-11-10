@@ -78,17 +78,27 @@ class mies_network:
           self.path = os.environ.get('HOME')
           os.system(f'clear && cd {self.path} && echo "\n" && ls')
           folder_name = input('\nName of folder which contains the file: ')
-          if folder_name != '':
-            self.path = self.path + '/' + folder_name
-            os.system(f'cd {os.path.abspath(self.path)} && echo "\n" && ls')
+          if '.gf' in folder_name:
+            if os.path.exists(self.path + '/Con_Files' + '/' + folder_name):
+              get_file = open(self.path + '/Con_Files'+ '/' + folder_name,'r').read()
+              self.path = self.path + get_file
+              d.append(self.path)
+              print(d)
+            else:
+              print('Cannot find ' + folder_name + ' in ' + os.path.abspath('Con_Files'))
           else:
-            os.system('clear && cd && echo "\n" && ls')
-          file_name = input(f'File {i+1}: ')
-          if file_name == 'data.txt':_raise_error_(file_name)
-          if file_name == 'data.jsn':_raise_error_(file_name)
-          if file_name == 'complete_connection.json':_raise_error_(file_name)
-          self.path = os.path.join(self.path, file_name)
-          d.append(self.path)
+            if not len(d) > 1:
+              if folder_name != '':
+                self.path = self.path + '/' + folder_name
+                os.system(f'cd {os.path.abspath(self.path)} && echo "\n" && ls')
+              else:
+                os.system('clear && cd && echo "\n" && ls')
+              file_name = input(f'File {i+1}: ')
+              if file_name == 'data.txt':_raise_error_(file_name)
+              if file_name == 'data.jsn':_raise_error_(file_name)
+              if file_name == 'complete_connection.json':_raise_error_(file_name)
+              self.path = os.path.join(self.path, file_name)
+              d.append(self.path)
         if not os.path.exists(os.path.abspath(d[0])):raise NotADirectoryError('No such directory ' + os.path.abspath(d[0]))
         if not os.path.exists(os.path.abspath(d[1])):raise NotADirectoryError('No such directory ' + os.path.abspath(d[1]))
         if os.path.exists(os.path.abspath(d[0])) and os.path.exists(os.path.abspath(d[1])):self.info.update({'ip_connectivity_info':{IP[0]:[os.path.abspath(d[0])],IP[1]:[os.path.abspath(d[1])]},'file_connectivity_info':{os.path.abspath(d[0]):[IP[0]],os.path.abspath(d[1]):[IP[1]]}})
@@ -97,17 +107,24 @@ class mies_network:
           self.path = os.environ.get('HOME')
           os.system(f'clear && cd {self.path} && echo "\n" && ls')
           folder_name = input('\nName of folder which contains the file: ')
-          if folder_name != '':
-            self.path = self.path + '/' + folder_name
-            os.system(f'cd {os.path.abspath(self.path)} && echo "\n" && ls')
+          if '.gf' in folder_name:
+            if os.path.exists(self.path + '/Con_Files' + '/' + folder_name):
+              op = open(self.path + '/Con_Files'+ '/' + folder_name,'r').read()
+              self.path = self.path + op
+              d.append(self.path)
+            print('Cannot find ' + folder_name + ' in ' + os.path.abspath('Con_Files'))
           else:
-            os.system('clear && cd && echo "\n" && ls')
-          file_name = input(f'File {i+1}: ')
-          if file_name == 'data.txt':_raise_error_(file_name)
-          if file_name == 'data.json':_raise_error_(file_name)
-          if file_name == 'complete_connection.json':_raise_error_(file_name)
-          self.path = os.path.join(self.path, file_name)
-          d.append(self.path)
+            if folder_name != '':
+              self.path = self.path + '/' + folder_name
+              os.system(f'cd {os.path.abspath(self.path)} && echo "\n" && ls')
+            else:
+              os.system('clear && cd && echo "\n" && ls')
+            file_name = input(f'File {i+1}: ')
+            if file_name == 'data.txt':_raise_error_(file_name)
+            if file_name == 'data.json':_raise_error_(file_name)
+            if file_name == 'complete_connection.json':_raise_error_(file_name)
+            self.path = os.path.join(self.path, file_name)
+            d.append(self.path)
         if not os.path.exists(os.path.abspath(d[0])):raise NotADirectoryError('No such directory ' + os.path.abspath(d[0]))
         if not os.path.exists(os.path.abspath(d[1])):raise NotADirectoryError('No such directory ' + os.path.abspath(d[1]))
         if not os.path.exists(os.path.abspath(d[2])):raise NotADirectoryError('No such directory ' + os.path.abspath(d[2]))
@@ -140,7 +157,8 @@ class mies_network:
       if os.path.exists(setup_info['PATH']):
         self.file_path = os.path.abspath(setup_info['PATH'])
         if self.ip in self.info['ip_connectivity_info']:
-          self.info['ip_connectivity_info'][self.ip].append(self.file_path)
+          if not self.file_path in self.info['ip_connectivity_info'][self.ip]:
+            self.info['ip_connectivity_info'][self.ip].append(self.file_path)
         else:
           self.info['ip_connectivity_info'].update({self.ip:[self.file_path]})
         if not 'file_connectivity_info' in self.info:
