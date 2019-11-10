@@ -33,18 +33,27 @@ if not os.path.isfile(os.path.abspath('data.json')) or not os.path.isfile(os.pat
   elif type_ == 'u':
     os.system(f'clear && cd {MAIN_PATH} && echo "\n" && ls')
     folder_name = input('\nName of folder which contains the file: ')
-    if folder_name != '':
-      MAIN_PATH = MAIN_PATH + '/' + folder_name
-      os.system(f'cd {os.path.abspath(MAIN_PATH)} && echo "\n" && ls')
+    if '.gf' in folder_name:
+      if os.path.exists(MAIN_PATH + '/Con_Files' + '/' + folder_name):
+        op = open(folder_name,'r').read()
+        MAIN_PATH = MAIN_PATH + op
+        s._gather_(PATH=MAIN_PATH)
+        s._establish_('connected to ' + MAIN_PATH,s._return_ip_())
+      else:
+        print('Cannot find ' + folder_name + ' in ' + os.path.abspath('Con_Files'))
     else:
-      os.system(f'clear && cd {MAIN_PATH} ' + '&& echo "\n" && ls')
-    file_name = input(Fore.BLUE + 'Existing Filename: ')
-    if file_name == 'data.txt':_raise_using_error_(file_name)
-    if file_name == 'data.json':_raise_using_error_(file_name)
-    if file_name == 'complete_connection.json':_raise_using_error_(file_name)
-    _PATH_ = os.path.join(MAIN_PATH,file_name)
-    s._gather_(PATH=_PATH_)
-    s._establish_('connected to ' + os.path.abspath(file_name),s._return_ip_())
+      if folder_name != '':
+        MAIN_PATH = MAIN_PATH + '/' + folder_name
+        os.system(f'cd {os.path.abspath(MAIN_PATH)} && echo "\n" && ls')
+      else:
+        os.system(f'clear && cd {MAIN_PATH} ' + '&& echo "\n" && ls')
+      file_name = input(Fore.BLUE + 'Existing Filename: ')
+      if file_name == 'data.txt':_raise_using_error_(file_name)
+      if file_name == 'data.json':_raise_using_error_(file_name)
+      if file_name == 'complete_connection.json':_raise_using_error_(file_name)
+      _PATH_ = os.path.join(MAIN_PATH,file_name)
+      s._gather_(PATH=_PATH_)
+      s._establish_('connected to ' + os.path.abspath(file_name),s._return_ip_())
   else:
     raise Exception('The choice ' + type_ + ' is not a valid choice')
   s._START_CONNECTION_()
