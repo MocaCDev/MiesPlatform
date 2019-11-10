@@ -62,9 +62,9 @@ class connect:
           print(f'Connect to file: {i}')
         get_file_to_con_to = input('File #: ')
         if get_file_to_con_to == '1':self.file_ = DATA['ip_connectivity_info'][self.con_info['con_to_file_through_ip']][0]
-        if get_file_to_con_to == '2':file_ = DATA['ip_connectivity_info'][self.con_info['con_to_file_through_ip']][1]
-        print('connection complete. connection with ' + str(self.con_info['con_to_file_through_ip']) + ' to ' + str(file_))
-        CONNECTION_WITH.append([self.con_info['con_to_file_through_ip'],file_])
+        if get_file_to_con_to == '2':self.file_ = DATA['ip_connectivity_info'][self.con_info['con_to_file_through_ip']][1]
+        print('connection complete. connection with ' + str(self.con_info['con_to_file_through_ip']) + ' to ' + str(self.file_))
+        CONNECTION_WITH.append([self.con_info['con_to_file_through_ip'],self.file_])
       else:
         print('connection complete. connection with ' + str(self.con_info['con_to_file_through_ip']) + ' to ' + str(DATA['ip_connectivity_info'][self.con_info['con_to_file_through_ip']][0]))
         CONNECTION_WITH.append([self.con_info['con_to_file_through_ip'],DATA['ip_connectivity_info'][self.con_info['con_to_file_through_ip']][0]])
