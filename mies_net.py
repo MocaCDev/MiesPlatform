@@ -79,8 +79,8 @@ class mies_network:
           os.system(f'clear && cd {self.path} && echo "\n" && ls')
           folder_name = input('\nName of folder which contains the file: ')
           if '.gf' in folder_name:
-            if os.path.exists(self.path + '/MiesPlatform/Con_Files' + '/' + folder_name):
-              get_file = open(self.path + '/MiesPlatform/Con_Files'+ '/' + folder_name,'r').read()
+            if os.path.exists(self.path + '/Con_Files' + '/' + folder_name):
+              get_file = open(self.path + '/Con_Files'+ '/' + folder_name,'r').read()
               self.path = self.path + get_file
               d.append(self.path)
               print(d)
@@ -108,8 +108,8 @@ class mies_network:
           os.system(f'clear && cd {self.path} && echo "\n" && ls')
           folder_name = input('\nName of folder which contains the file: ')
           if '.gf' in folder_name:
-            if os.path.exists(self.path + '/MiesPlatform/Con_Files' + '/' + folder_name):
-              op = open(self.path + '/MiesPlatform/Con_Files'+ '/' + folder_name,'r').read()
+            if os.path.exists(self.path + '/Con_Files' + '/' + folder_name):
+              op = open(self.path + '/Con_Files'+ '/' + folder_name,'r').read()
               self.path = self.path + op
               d.append(self.path)
             print('Cannot find ' + folder_name + ' in ' + os.path.abspath('Con_Files'))
@@ -154,21 +154,25 @@ class mies_network:
     "Gathers information to setup the IP file connection officialy"
 
     if 'PATH' in setup_info:
-      self.file_path = os.path.abspath(setup_info['PATH'])
-      if self.ip in self.info['ip_connectivity_info']:
-        if not self.file_path in self.info['ip_connectivity_info'][self.ip]:
-          self.info['ip_connectivity_info'][self.ip].append(self.file_path)
+      os.system(f'cd {setup_info["PATH"]}')
+      if os.path.exists(setup_info['PATH']):
+        self.file_path = os.path.abspath(setup_info['PATH'])
+        if self.ip in self.info['ip_connectivity_info']:
+          if not self.file_path in self.info['ip_connectivity_info'][self.ip]:
+            self.info['ip_connectivity_info'][self.ip].append(self.file_path)
         else:
           self.info['ip_connectivity_info'].update({self.ip:[self.file_path]})
-      if not 'file_connectivity_info' in self.info:
-        self.info.update({'file_connectivity_info':{os.path.abspath(setup_info['PATH']):[self.ip]}})
-      elif 'file_connectivity_info' in self.info:
-        if not os.path.abspath(setup_info['PATH']) in self.info['file_connectivity_info']:
-          self.info['file_connectivity_info'].update({os.path.abspath(setup_info['PATH']):[self.ip]})
-        if not self.ip in self.info['file_connectivity_info'][os.path.abspath(setup_info['PATH'])]:
-          self.info['file_connectivity_info'][os.path.abspath(setup_info['PATH'])].append(self.ip)
-      ip_con_to_file = {self.ip+'_con_to_file_':os.path.abspath(setup_info['PATH'])}
-      self.path_ = setup_info['PATH']
+        if not 'file_connectivity_info' in self.info:
+          self.info.update({'file_connectivity_info':{os.path.abspath(setup_info['PATH']):[self.ip]}})
+        elif 'file_connectivity_info' in self.info:
+          if not os.path.abspath(setup_info['PATH']) in self.info['file_connectivity_info']:
+            self.info['file_connectivity_info'].update({os.path.abspath(setup_info['PATH']):[self.ip]})
+          if not self.ip in self.info['file_connectivity_info'][os.path.abspath(setup_info['PATH'])]:
+            self.info['file_connectivity_info'][os.path.abspath(setup_info['PATH'])].append(self.ip)
+        ip_con_to_file = {self.ip+'_con_to_file_':os.path.abspath(setup_info['PATH'])}
+        self.path_ = setup_info['PATH']
+      else:
+        raise Exception('File ' + os.path.abspath(setup_info['PATH']) + ' does not exists')
     if 'create_path' in setup_info:
       self.open_file = open(setup_info['create_path'],'w')
       self.open_file.close()
