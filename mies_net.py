@@ -154,6 +154,7 @@ class mies_network:
     "Gathers information to setup the IP file connection officialy"
 
     if 'PATH' in setup_info:
+      os.system(f'cd {setup_info["PATH"]}')
       if os.path.exists(setup_info['PATH']):
         self.file_path = os.path.abspath(setup_info['PATH'])
         if self.ip in self.info['ip_connectivity_info']:
