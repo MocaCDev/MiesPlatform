@@ -34,11 +34,14 @@ if not os.path.isfile(os.path.abspath('data.json')) or not os.path.isfile(os.pat
     os.system(f'clear && cd {MAIN_PATH} && echo "\n" && ls')
     folder_name = input('\nName of folder which contains the file: ')
     if '.gf' in folder_name:
-      if os.path.exists(MAIN_PATH + '/MiesPlatform/Con_Files' + '/' + folder_name):
-        op = open(MAIN_PATH + '/MiesPlatform/Con_Files' + '/' + folder_name,'r').read()
+      if os.path.exists(MAIN_PATH + '/Con_Files' + '/' + folder_name):
+        op = open(MAIN_PATH + '/Con_Files' + '/' + folder_name,'r').read()
         MAIN_PATH = MAIN_PATH + op
-        s._gather_(PATH=MAIN_PATH)
-        s._establish_('connected to ' + MAIN_PATH,s._return_ip_())
+        if os.path.exists(MAIN_PATH):
+          s._gather_(PATH=MAIN_PATH)
+          s._establish_('connected to ' + MAIN_PATH,s._return_ip_())
+        else:
+          raise FileExistsError('The file ' + MAIN_PATH + ' does not exists')
       else:
         print('Cannot find ' + folder_name + ' in ' + os.path.abspath('Con_Files'))
     else:
