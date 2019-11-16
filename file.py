@@ -36,6 +36,8 @@ if not os.path.isfile(os.path.abspath('data.json')) or not os.path.isfile(os.pat
     if '.gf' in folder_name:
       op = open(MAIN_PATH + '/MiesPlatform/Con_Files' + '/' + folder_name)
       op_ = open(MAIN_PATH + '/MiesPlatform/Con_Files' + '/' + folder_name)
+      if '\n' in op_.read():
+        del('\n')
       print(op_.read())
       #os.system(f'echo {op.name}')
       if os.path.isfile(MAIN_PATH + '/MiesPlatform/Con_Files' + '/' + folder_name):
