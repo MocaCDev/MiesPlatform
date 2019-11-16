@@ -79,7 +79,7 @@ class mies_network:
           os.system(f'clear && cd {self.path} && echo "\n" && ls')
           folder_name = input('\nName of folder which contains the file: ')
           if '.gf' in folder_name:
-            if os.path.exists(self.path + '/MiesPlatform/Con_Files' + '/' + folder_name):
+            if os.path.isfile(self.path + '/MiesPlatform/Con_Files' + '/' + folder_name):
               get_file = open(self.path + '/MiesPlatform/Con_Files'+ '/' + folder_name,'r').read()
               self.path = self.path + get_file
               d.append(self.path)
@@ -108,7 +108,7 @@ class mies_network:
           os.system(f'clear && cd {self.path} && echo "\n" && ls')
           folder_name = input('\nName of folder which contains the file: ')
           if '.gf' in folder_name:
-            if os.path.exists(self.path + '/MiesPlatform/Con_Files' + '/' + folder_name):
+            if os.path.isfile(self.path + '/MiesPlatform/Con_Files' + '/' + folder_name):
               op = open(self.path + '/MiesPlatform/Con_Files'+ '/' + folder_name,'r').read()
               self.path = self.path + op
               d.append(self.path)
