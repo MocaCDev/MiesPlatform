@@ -46,8 +46,3 @@ VALUES ({id_},'{INFO["IP"][0]}','{INFO["FILE"][0]}');
     connect.commit()
     connect.close()
     file.close()
-  
-    op_and_write = open('database.sql','r').read()
-    with open(self.PATH,'w') as file:
-      file.write(op_and_write)
-      file.close()
