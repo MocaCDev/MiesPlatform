@@ -42,8 +42,7 @@ CREATE TABLE IP_INFO(
 INSERT INTO IP_INFO(ACTIVE_ID,ACTIVE_IP,ACTIVE_FILE_DIR)
 VALUES ({id_},'{INFO["IP"][0]}','{INFO["FILE"][0]}');
       """)
-    
-    crs.execute("SELECT * FROM IP_INFO")
+      
     connect.commit()
     connect.close()
     file.close()
