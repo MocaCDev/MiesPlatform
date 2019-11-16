@@ -154,25 +154,21 @@ class mies_network:
     "Gathers information to setup the IP file connection officialy"
 
     if 'PATH' in setup_info:
-      os.system(f'cd /data/data/com.termux/files/home')
-      if os.path.exists(setup_info['PATH']):
-        self.file_path = os.path.abspath(setup_info['PATH'])
-        if self.ip in self.info['ip_connectivity_info']:
-          if not self.file_path in self.info['ip_connectivity_info'][self.ip]:
-            self.info['ip_connectivity_info'][self.ip].append(self.file_path)
+      self.file_path = os.path.abspath(setup_info['PATH'])
+      if self.ip in self.info['ip_connectivity_info']:
+        if not self.file_path in self.info['ip_connectivity_info'][self.ip]:
+          self.info['ip_connectivity_info'][self.ip].append(self.file_path)
         else:
           self.info['ip_connectivity_info'].update({self.ip:[self.file_path]})
-        if not 'file_connectivity_info' in self.info:
-          self.info.update({'file_connectivity_info':{os.path.abspath(setup_info['PATH']):[self.ip]}})
-        elif 'file_connectivity_info' in self.info:
-          if not os.path.abspath(setup_info['PATH']) in self.info['file_connectivity_info']:
-            self.info['file_connectivity_info'].update({os.path.abspath(setup_info['PATH']):[self.ip]})
-          if not self.ip in self.info['file_connectivity_info'][os.path.abspath(setup_info['PATH'])]:
-            self.info['file_connectivity_info'][os.path.abspath(setup_info['PATH'])].append(self.ip)
-        ip_con_to_file = {self.ip+'_con_to_file_':os.path.abspath(setup_info['PATH'])}
-        self.path_ = setup_info['PATH']
-      else:
-        raise Exception('File ' + os.path.abspath(setup_info['PATH']) + ' does not exists')
+      if not 'file_connectivity_info' in self.info:
+        self.info.update({'file_connectivity_info':{os.path.abspath(setup_info['PATH']):[self.ip]}})
+      elif 'file_connectivity_info' in self.info:
+        if not os.path.abspath(setup_info['PATH']) in self.info['file_connectivity_info']:
+          self.info['file_connectivity_info'].update({os.path.abspath(setup_info['PATH']):[self.ip]})
+        if not self.ip in self.info['file_connectivity_info'][os.path.abspath(setup_info['PATH'])]:
+          self.info['file_connectivity_info'][os.path.abspath(setup_info['PATH'])].append(self.ip)
+      ip_con_to_file = {self.ip+'_con_to_file_':os.path.abspath(setup_info['PATH'])}
+      self.path_ = setup_info['PATH']
     if 'create_path' in setup_info:
       self.open_file = open(setup_info['create_path'],'w')
       self.open_file.close()
