@@ -16,7 +16,7 @@ class database:
 
     "Creates the MiesPlatform SQL Database with sqlite3"
 
-    with open('database.sql','w') as file:
+    with open(self.PATH,'w') as file:
       connect = sqlite3.connect(self.PATH)
       crs = connect.cursor()
 
