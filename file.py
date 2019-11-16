@@ -35,7 +35,7 @@ if not os.path.isfile(os.path.abspath('data.json')) or not os.path.isfile(os.pat
     folder_name = input('\nName of folder which contains the file: ')
     if '.gf' in folder_name:
       if os.path.exists(MAIN_PATH + '/Con_Files' + '/' + folder_name):
-        op = open(folder_name,'r').read()
+        op = open(MAIN_PATH + '/Con_Files' + '/' + folder_name,'r').read()
         MAIN_PATH = MAIN_PATH + op
         s._gather_(PATH=MAIN_PATH)
         s._establish_('connected to ' + MAIN_PATH,s._return_ip_())
