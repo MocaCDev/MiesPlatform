@@ -1,5 +1,3 @@
-"CREATES DATABASE FOR MiesPlatform"
-
 import sqlite3, os
 
 class database:
@@ -8,7 +6,7 @@ class database:
 
   def _setup_sql_database_(self):
 
-    "setting db server to true and gets path of database.db"
+    "setting db server to true"
 
     self.db_server = True
     # PATH TO database.db
@@ -49,3 +47,8 @@ VALUES ({id_},'{INFO["IP"][0]}','{INFO["FILE"][0]}');
     connect.commit()
     connect.close()
     file.close()
+  
+    op_and_write = open('database.sql','r').read()
+    with open(self.PATH,'w') as file:
+      file.write(op_and_write)
+      file.close()
