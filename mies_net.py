@@ -79,8 +79,8 @@ class mies_network:
           os.system(f'clear && cd {self.path} && echo "\n" && ls')
           folder_name = input('\nName of folder which contains the file: ')
           if '.gf' in folder_name:
-            if os.path.exists(self.path + '/Con_Files' + '/' + folder_name):
-              get_file = open(self.path + '/Con_Files'+ '/' + folder_name,'r').read()
+            if os.path.exists(self.path + '/Mies_Platform/Con_Files' + '/' + folder_name):
+              get_file = open(self.path + '/Mies_Platform/Con_Files'+ '/' + folder_name,'r').read()
               self.path = self.path + get_file
               d.append(self.path)
               print(d)
@@ -109,7 +109,7 @@ class mies_network:
           folder_name = input('\nName of folder which contains the file: ')
           if '.gf' in folder_name:
             if os.path.exists(self.path + '/Con_Files' + '/' + folder_name):
-              op = open(self.path + '/Con_Files'+ '/' + folder_name,'r').read()
+              op = open(self.path + '/Mies_Platform/Con_Files'+ '/' + folder_name,'r').read()
               self.path = self.path + op
               d.append(self.path)
             print('Cannot find ' + folder_name + ' in ' + os.path.abspath('Con_Files'))
