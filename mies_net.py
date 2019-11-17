@@ -81,6 +81,10 @@ class mies_network:
           if '.gf' in folder_name:
             if os.path.isfile(self.path + '/MiesPlatform/Con_Files' + '/' + folder_name):
               get_file = open(self.path + '/MiesPlatform/Con_Files'+ '/' + folder_name,'r').read()
+              get_file = get_file.replace('\n','')
+              with open(self.path + '/MiesPlatform/Con_Files' + '/' + folder_name,'w') as file:
+                file.write(get_file)
+                file.close()
               self.path = self.path + get_file
               d.append(self.path)
               print(d)
@@ -110,6 +114,10 @@ class mies_network:
           if '.gf' in folder_name:
             if os.path.isfile(self.path + '/MiesPlatform/Con_Files' + '/' + folder_name):
               op = open(self.path + '/MiesPlatform/Con_Files'+ '/' + folder_name,'r').read()
+              op = op.replace('\n','')
+              with open(self.path + '/MiesPlatform/Con_Files' + '/' + folder_name,'w') as file:
+                file.write(op)
+                file.close()
               self.path = self.path + op
               d.append(self.path)
             print('Cannot find ' + folder_name + ' in ' + os.path.abspath('Con_Files'))
