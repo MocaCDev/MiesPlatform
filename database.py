@@ -51,14 +51,10 @@ VALUES ({id_},'{INFO["IP"][0]}','{INFO["FILE"][0]}');
   
     with open('database.csv','w') as file:
       if len(INFO['FILE']) > 1:
-        file.write(f'''
-id,ip,file_dir
-{id_},{INFO['IP'][0]},{INFO['FILE'][0]} --> {INFO['FILE'][1]}
-    ''')
+        file.write(f'''id,ip,file_dir
+{id_},{INFO['IP'][0]},{INFO['FILE'][0]} --> {INFO['FILE'][1]}''')
       else:
-        file.write(f'''
-id,ip,file_dir
-{id_},{INFO['IP'][0]},{INFO['FILE'][0]}
-    ''')
+        file.write(f'''id,ip,file_dir
+{id_},{INFO['IP'][0]},{INFO['FILE'][0]}''')
       file.close()
     
