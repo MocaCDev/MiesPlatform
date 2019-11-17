@@ -41,7 +41,6 @@ if not os.path.isfile(os.path.abspath('data.json')) or not os.path.isfile(os.pat
           file.write(op)
           file.close()
         MAIN_PATH = MAIN_PATH + op
-        print(open(MAIN_PATH,'r').read())
         if os.path.isfile(MAIN_PATH):
           s._gather_(PATH=MAIN_PATH)
           s._establish_('connected to ' + MAIN_PATH,s._return_ip_())
