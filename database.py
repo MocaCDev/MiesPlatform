@@ -16,33 +16,40 @@ class database:
 
     "Creates the MiesPlatform SQL Database with sqlite3"
 
-    with open(self.PATH,'w') as file:
+    with open('database.db','w') as file:
       connect = sqlite3.connect(self.PATH)
       crs = connect.cursor()
 
       if len(INFO['FILE']) > 1:
-        file.write(f"""
+        crs.execute(f""""
 CREATE TABLE IP_INFO(
   ACTIVE_ID INTEGER PRIMARY KEY,
   ACTIVE_IP TEXT NOT NULL,
   ACTIVE_FILE_DIR TEXT NOT NULL
 );
-
+      """)
+        crs.execute(f"""
 INSERT INTO IP_INFO(ACTIVE_ID,ACTIVE_IP,ACTIVE_FILE_DIR)
 VALUES ({id_},'{INFO["IP"][0]}','{INFO["FILE"][0]} --> {INFO["FILE"][1]}');
       """)
       else:
-        file.write(f"""
+        crs.execute(f"""
 CREATE TABLE IP_INFO(
   ACTIVE_ID INTEGER PRIMARY KEY,
   ACTIVE_IP TEXT NOT NULL,
   ACTIVE_FILE_DIR TEXT NOT NULL
 );
-
+      """)
+      crs.execute(f"""
 INSERT INTO IP_INFO(ACTIVE_ID,ACTIVE_IP,ACTIVE_FILE_DIR)
 VALUES ({id_},'{INFO["IP"][0]}','{INFO["FILE"][0]}');
       """)
-      
+
     connect.commit()
     connect.close()
     file.close()
+  
+    op_and_write = open('database.sql','r').read()
+    with open(self.PATH,'w') as file:
+      file.write(op_and_write)
+      file.close()
