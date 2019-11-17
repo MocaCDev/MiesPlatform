@@ -36,7 +36,7 @@ if not os.path.isfile(os.path.abspath('data.json')) or not os.path.isfile(os.pat
     if '.gf' in folder_name:
       if os.path.isfile(MAIN_PATH + '/MiesPlatform/Con_Files' + '/' + folder_name):
         op = open(MAIN_PATH + '/MiesPlatform/Con_Files' + '/' + folder_name,'r').read()
-        op = op.replace('/n','')
+        op = op.replace('\n','')
         with open(MAIN_PATH + '/MiesPlatform/Con_Files' + '/' + folder_name,'w') as file:
           file.write(op)
           file.close()
