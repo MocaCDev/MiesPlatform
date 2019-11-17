@@ -239,8 +239,8 @@ class mies_network:
 
     # Messages written into the file the user has created or is using
     warn_messages = {
-      'default':'This file is the gathering point of data being pulled from other files. \nMessage admitted by MiesPlatform Application',
-      'warning':'NOTE: This is the gathering point for data from other files, if you write in this file it will be transfered to old_info.txt. \nMessage admitted by MiesPlatform Application',
+      'default':'This file is the gathering point of data being pulled from other files. \nMessage Admitted by MiesPlatform Application',
+      'warning':'NOTE: This is the gathering point for data from other files, if you write in this file it will be transfered to old_info.txt. \nMessage Admitted by MiesPlatform Application',
       'custom':''
       }
 
