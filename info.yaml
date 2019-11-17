@@ -2,3 +2,7 @@ Ignore Request:
   - a01
   - Reasoning:
     - Admin based Request to and from IP
+  - Type:
+    - Reserved
+  - NOTE:
+    - Please do not use the request name/type of a01, thanks
