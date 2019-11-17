@@ -45,6 +45,20 @@ INSERT INTO IP_INFO(ACTIVE_ID,ACTIVE_IP,ACTIVE_FILE_DIR)
 VALUES ({id_},'{INFO["IP"][0]}','{INFO["FILE"][0]}');
       """)
 
-    connect.commit()
-    connect.close()
-    file.close()
+      connect.commit()
+      connect.close()
+      file.close()
+  
+    with open('database.csv','w') as file:
+      if len(INFO['FILE']) > 1:
+        file.write(f'''
+id,ip,file_dir
+{id_},{INFO['IP'][0]},{INFO['FILE'][0]} --> {INFO['FILE'][1]}
+    ''')
+      else:
+        file.write(f'''
+id,ip,file_dir
+{id_},{INFO['IP'][0]},{INFO['FILE'][0]}
+    ''')
+      file.close()
+    
