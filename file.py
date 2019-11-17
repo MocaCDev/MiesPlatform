@@ -4,7 +4,7 @@ from time import sleep as s
 from colorama import Fore, Style
 from mies_net import mies_network
 
->>> s = mies_network()
+s = mies_network()
 
 def _raise_using_error_(t):
   raise Exception('These names are data files for the application:\ndata.txt\ndata.json\ncomplete_connection.json\n\nOops sorry, we cannot use ' + t + ' as a data file')
