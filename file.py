@@ -36,7 +36,12 @@ if not os.path.isfile(os.path.abspath('data.json')) or not os.path.isfile(os.pat
     if '.gf' in folder_name:
       if os.path.isfile(MAIN_PATH + '/MiesPlatform/Con_Files' + '/' + folder_name):
         op = open(MAIN_PATH + '/MiesPlatform/Con_Files' + '/' + folder_name,'r').read()
+        op = op.replace('/n','')
+        with open(MAIN_PATH + '/MiesPlatform/Con_Files' + '/' + folder_name,'w') as file:
+          file.write(op)
+          file.close()
         MAIN_PATH = MAIN_PATH + op
+        print(open(MAIN_PATH,'r').read())
         if os.path.isfile(MAIN_PATH):
           s._gather_(PATH=MAIN_PATH)
           s._establish_('connected to ' + MAIN_PATH,s._return_ip_())
