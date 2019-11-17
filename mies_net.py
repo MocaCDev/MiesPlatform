@@ -239,8 +239,8 @@ class mies_network:
 
     # Messages written into the file the user has created or is using
     warn_messages = {
-      'default':'This file is the gathering point of data being pulled from other files',
-      'warning':'NOTE: This is the gathering point for data from other files, if you write in this file it will be transfered to old_info.txt',
+      'default':'This file is the gathering point of data being pulled from other files. \nMessage admitted by MiesPlatform Application',
+      'warning':'NOTE: This is the gathering point for data from other files, if you write in this file it will be transfered to old_info.txt. \nMessage admitted by MiesPlatform Application',
       'custom':''
       }
 
@@ -265,6 +265,7 @@ class mies_network:
        _write_to_file_(self.path_,warn_messages,warn_type)
     elif warn_type == 'custom':
       custom_warn = input('Custom Message >> ')
+      custom_warn = custom_warn + '\nMessage Admitted by MiesPlatform Application'
       warn_messages['custom'] = custom_warn
       _write_to_file_(self.path_,warn_messages,warn_type)
     else:
