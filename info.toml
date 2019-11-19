@@ -16,3 +16,6 @@
   [connection_keys]
     [keys]
     keys = ["default_01","aub87yu","uyghb89","ughji89","auuouhj"]
+    [ignore_key]
+    ignore_key = "a01"
+    reason: "Special key-and-request type"
