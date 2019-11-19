@@ -1,5 +1,13 @@
 [application.info]
   author = "ARACADERISE"
+  version = "1.0.1"
+  description = "Data-based platform that does many data-exchangable ideals within your terminal"
+  app_type = "file-based-application"
+  used_in = "termux"
+  github_resp = "ARACADERISE/MiesPlatform"
+  run = "bash install requirements.txt && python file.py"
+[DISCLAIMER]
+  disclaimer = "there is no .sh file due to the fact the application needs no additional downloads and or software"
 [setup.info]
   run = "bash install requirements.txt && python file.py"
 [IP CONNECTIONS]
