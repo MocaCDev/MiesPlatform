@@ -3,13 +3,9 @@
 [setup.info]
   run = "bash install requirements.txt && python file.py"
 [IP CONNECTIONS]
-  [connection_one]
-  ip = "127.0.0.1"
-  [connection_two]
-  ip = "109.0.4.8"
-  [connection_three]
-  ip = "130.8.9.1"
+  [connection_info]
+  ip_connections =  ["127.0.0.1","109.0.4.8","130.8.9.1"]
 
   [connection_keys]
     [keys]
-    keys = ['default_01','aub87yu','uyghb89','ughji89','auuouhj']
+    keys = ["default_01","aub87yu","uyghb89","ughji89","auuouhj"]
