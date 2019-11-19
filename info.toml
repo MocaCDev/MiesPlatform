@@ -16,6 +16,6 @@
   [connection_keys]
     [keys]
     keys = ["default_01","aub87yu","uyghb89","ughji89","auuouhj"]
-    [ignore_key]
-    ignore_key = "a01"
-    reason = "Special key-and-request type"
+    [ignore_request]
+    ignore_req = "a01"
+    reason = "Admin based request to and from IP address to gain information and or give information by default"
