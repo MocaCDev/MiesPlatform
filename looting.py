@@ -91,3 +91,12 @@ class connect:
     
     open_ = json.loads(open('complete_connection.json','r').read())
     return open_['ip_connection_data']['connect_to_file']
+  
+  def _gather_keys_(self,**ip_address):
+
+    "key data will be stored in a csv, toml and json file"
+
+    key_info = json.loads(open('data.json','r').read())
+
+    for i in range(len(ip_address['IP_'])):
+      print(ip_address['IP_'][i])
