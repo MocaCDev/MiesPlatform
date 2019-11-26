@@ -79,15 +79,14 @@ class mies_network:
           os.system(f'clear && cd {self.path} && echo "\n" && ls')
           folder_name = input('\nName of folder which contains the file: ')
           if '.gf' in folder_name:
-            if os.path.isfile(self.path + '/MiesPlatform/Con_Files' + '/' + folder_name):
-              get_file = open(self.path + '/MiesPlatform/Con_Files'+ '/' + folder_name,'r').read()
+            if os.path.exists(self.path + '/Con_Files' + '/' + folder_name):
+              get_file = open(self.path + '/Con_Files'+ '/' + folder_name,'r').read()
               get_file = get_file.replace('\n','')
-              with open(self.path + '/MiesPlatform/Con_Files' + '/' + folder_name,'w') as file:
+              with open(self.path + '/Con_Files'+ '/' + folder_name,'w') as file:
                 file.write(get_file)
                 file.close()
               self.path = self.path + get_file
               d.append(self.path)
-              print(d)
             else:
               print('Cannot find ' + folder_name + ' in ' + os.path.abspath('Con_Files'))
           else:
@@ -112,15 +111,16 @@ class mies_network:
           os.system(f'clear && cd {self.path} && echo "\n" && ls')
           folder_name = input('\nName of folder which contains the file: ')
           if '.gf' in folder_name:
-            if os.path.isfile(self.path + '/MiesPlatform/Con_Files' + '/' + folder_name):
-              op = open(self.path + '/MiesPlatform/Con_Files'+ '/' + folder_name,'r').read()
+            if os.path.exists(self.path + '/Con_Files' + '/' + folder_name):
+              op = open(self.path + '/Con_Files'+ '/' + folder_name,'r').read()
               op = op.replace('\n','')
-              with open(self.path + '/MiesPlatform/Con_Files' + '/' + folder_name,'w') as file:
+              with open(self.path + '/Con_Files'+ '/' + folder_name,'w') as file:
                 file.write(op)
-                file.close()
+                file.close()     
               self.path = self.path + op
               d.append(self.path)
-            print('Cannot find ' + folder_name + ' in ' + os.path.abspath('Con_Files'))
+            else:
+              print('Cannot find ' + folder_name + ' in ' + os.path.abspath('Con_Files'))
           else:
             if folder_name != '':
               self.path = self.path + '/' + folder_name
@@ -316,3 +316,18 @@ class mies_network:
             to_json = json.dumps(get_data,indent=2,sort_keys=False)
             file.write(to_json)
             file.close()
+    
+    # This will store the IP keys in complete_connection.json and will further be used
+    # when a user uses his/her IP key to connect to another IP address to request, send, or pull
+    "we need to check if the ip is in data.json before we pass the argument"
+    for i in range(len(IP)):
+
+      # this will be used to append the IP address if it's in data.json
+      append_ip = []
+
+      open_file = json.loads(open('data.json','r').read())
+
+      for i in range(len(IP)):
+        if IP[i] in open_file['ip_connectivity_info']:
+          append_ip.append(IP[i])
+          l._gather_keys_(IP_=append_ip)
