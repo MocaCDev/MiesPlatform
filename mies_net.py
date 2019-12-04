@@ -23,11 +23,22 @@ default_keys = [
   'auuouhj'
 ]
 
+# This will be used for deleting a IP address if it has a mutli-linked File
+def CHECK(info,index_of_ip):
+  if len(info['ip_connectivity_info'][IP[index_of_ip]]) > 1:
+    del(info['ip_connectivity'][IP[index_of_ip]][0])
+  else:
+    del(info['ip_connectivity_info'][IP[index_of_ip]])
+
 def _write_to_file_(path,found_in,name_of_warning):
   if '.yaml' in path:
     msg = f'Message:\n  -{found_in[name_of_warning]}'
   elif '.json' in path:
     msg = json.dumps({'message':found_in[name_of_warning]},indent=True,sort_keys=False)
+  elif '.csv' in path:
+    msg = 'message_is' + f'\n{found_in[name_of_warning]}'
+  elif '.toml' in path:
+    msg = '[message]' + f'\n    warning = "{found_in[name_of_warning]}"'
   else:
     msg = found_in[name_of_warning]
   if open(path,'r').read() != '':
@@ -136,7 +147,25 @@ class mies_network:
         if not os.path.exists(os.path.abspath(d[0])):raise NotADirectoryError('No such directory ' + os.path.abspath(d[0]))
         if not os.path.exists(os.path.abspath(d[1])):raise NotADirectoryError('No such directory ' + os.path.abspath(d[1]))
         if not os.path.exists(os.path.abspath(d[2])):raise NotADirectoryError('No such directory ' + os.path.abspath(d[2]))
-        if os.path.exists(os.path.abspath(d[0])) and os.path.exists(os.path.abspath(d[1])) and os.path.exists(os.path.abspath(d[2])):self.info.update({'ip_connectivity_info':{IP[0]:[os.path.abspath(d[0])],IP[1]:[os.path.abspath(d[1])],IP[2]:[os.path.abspath(d[2])]},'file_connectivity_info':{os.path.abspath(d[0]):[IP[0]],os.path.abspath(d[1]):[IP[1]],os.path.abspath(d[2]):[IP[2]]}})
+        if os.path.exists(os.path.abspath(d[0])) and os.path.exists(os.path.abspath(d[1])) and os.path.exists(os.path.abspath(d[2])):self.info.update({'ip_connectivity_info':{IP[0]:[os.path.abspath(d[0])],IP[1]:[os.path.abspath(d[1])],IP[2]:[os.path.abspath(d[2])]},'file_connectivity_info':{os.path.abspath(d[0]):[IP[0]],os.path.abspath(d[1]):[IP[1]],os.path.abspath(d[2]):[IP[2]]}}
+        if self.info['ip_connectivity_info'][IP[0]][0] == self.info['ip_connectivity_info'][IP[1]][0]:
+          CHECK(self.info,1)
+          err = True
+        if self.info['ip_connectivity_info'][IP[0]][0] == self.info['ip_connectivity_info'][IP[2]][0]:
+          CHECK(self.info)
+          err = True
+        if self.info['ip_connectivity_info'][IP[0]][0] == self.info['ip_connectivity_info'][IP[1]][0] and self.info['ip_connectivity_info'][IP[1]][0] == self.info['ip_connectivity_info'][IP[2]][0]:
+          del(self.info['ip_connectivity_info'][IP[1]])
+          del(self.info['ip_connectivity_info'][IP[2]])
+          with open('deleted_ip.txt','w') as deleted_ip:
+            deleted_ip.write('DELETED '+IP[1]+'\n'+'DELETED '+IP[2])
+            deleted_ip.close()
+          err_msg = f'You assigned the path {os.path.abspath(d[0])} to more than 1 ip address, which returned this warning\n' + Style.BRIGHT+Fore.RED+ self.info['mutliple_ip_connection_with_file_error']['warning'] + '\n'+Style.RESET_ALL
+          with open('error_message','w') as file:
+            file.write(err_msg)
+            file.close()
+        if err:
+          self.info.update({'mutliple_ip_connection_with_file_error':{'warning':f'the file {os.path.abspath(d[0])} is a primary source and cannot be shared among other ip addresses','err_message':'user tried to connect one file to multiple other IP addresses','more_info':'you can see the IP addresses you tried to assign in the file to in deleted_ip.txt'}})
       else:raise Exception('There is a max of 3 IP connections available, cannot assign ' + how_many + ' connections')
     elif assign == 'n':self.assign = False
     else:raise Exception('Choice ' + assign + ' is not a valid choice')
@@ -218,7 +247,10 @@ class mies_network:
           file.close()
         _get_extra_(self.info)
         s(3)
-        print('Successfully connected  ' + str(self.info['ip_connectivity_info'][self.ip]) + ' to IP address ' + self.ip)
+        if len(self.info['ip_connectivity_info'][self.ip]) == 2:
+          print('Successfully connected  ' + str(self.info['ip_connectivity_info'][self.ip][0])+', '+str(self.info['ip_connectivity_info'][self.ip][1]) + ' to IP address ' + self.ip)
+        else:
+          print('Successfully connected  ' + str(self.info['ip_connectivity_info'][self.ip][0]) + ' to IP address ' + self.ip)
     if 'create_path' in self.setup:
       if os.path.exists(self.setup['create_path']):
         with open('data.json','w') as file:
@@ -319,15 +351,6 @@ class mies_network:
     
     # This will store the IP keys in complete_connection.json and will further be used
     # when a user uses his/her IP key to connect to another IP address to request, send, or pull
-    "we need to check if the ip is in data.json before we pass the argument"
-    for i in range(len(IP)):
+    # this will be used to append the IP address if it's in data.json
 
-      # this will be used to append the IP address if it's in data.json
-      append_ip = []
-
-      open_file = json.loads(open('data.json','r').read())
-
-      for i in range(len(IP)):
-        if IP[i] in open_file['ip_connectivity_info']:
-          append_ip.append(IP[i])
-          l._gather_keys_(IP_=append_ip)
+    l._gather_keys_(get_data)
