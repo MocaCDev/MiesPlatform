@@ -42,7 +42,8 @@ class connect:
     if connect_file_through == '1':ip_to_con_with = self._all_ip[0]
     elif connect_file_through == '2':ip_to_con_with = self._all_ip[1]
     elif connect_file_through == '3':ip_to_con_with = self._all_ip[2]
-    else:raise Exception('choice ' + connect_file_through + ' does not contain an IP address')
+    else:
+      raise Exception('choice ' + connect_file_through + ' does not contain an IP address')
 
     self.con_info = {'con_to_file_through_ip':ip_to_con_with}
 
@@ -73,7 +74,13 @@ class connect:
         print('connection complete. connection with ' + self.con_info['con_to_file_through_ip'] + ' to ' + self.data['use'][self.con_info['con_to_file_through_ip']+'_con_to_file_'])
         CONNECTION_WITH.append([self.con_info['con_to_file_through_ip'],self.data['use'][self.con_info['con_to_file_through_ip']+'_con_to_file_']])
       else:
-        raise ConnectionError("Can't connect to a file through ip " + self.con_info['con_to_file_through_ip'])
+        if os.path.exists('error_message'):
+          if not open('error_message','r').read() == '':
+            raise ConnectionError(open('error_message','r').read())
+          else:
+            raise ConnectionError("Can't connect to a file through ip " + self.con_info['con_to_file_through_ip'])
+        else:
+          raise ConnectionError("Can't connect to a file through ip " + self.con_info['con_to_file_through_ip'])
         CONNECTION_WITH.append(['connection to ' + self.con_info['con_to_file_through_ip'] + ' failed'])
 
     file_info = {'ip_connection_data':{'IP':CONNECTION_WITH[0][0],'connect_to_file':CONNECTION_WITH[0][1]},'file_connection_data':{'FILE':CONNECTION_WITH[0][1],'connect_to_ip':CONNECTION_WITH[0][0]}}
@@ -92,11 +99,29 @@ class connect:
     open_ = json.loads(open('complete_connection.json','r').read())
     return open_['ip_connection_data']['connect_to_file']
   
-  def _gather_keys_(self,**ip_address):
+  def _gather_keys_(self,extra_info):
+
+    IP = [
+      "127.0.0.1",
+      "109.0.4.8",
+      "130.8.9.1"
+    ] 
+    data = {'file_info':{}}
 
     "key data will be stored in a csv, toml and json file"
 
-    key_info = json.loads(open('data.json','r').read())
-
-    for i in range(len(ip_address['IP_'])):
-      print(ip_address['IP_'][i])
+    for i in range(len(IP)):
+      if IP[i] in extra_info['ip_connectivity_info']:
+        ip = IP[i]
+        # Knowing that the max length of the list will be 4 due to the fact you can only connect
+        # to 3 ip addresses and only one key will go with each ip address, we can just use an if statement
+        # instead of a for loop
+        if len(extra_info['ip_connectivity_info'][ip]) == 4:
+          data['file_info'].update({extra_info['ip_connectivity_info'][ip][0]:extra_info['ip_connectivity_info'][ip][3]['ip_key'],extra_info['ip_connectivity_info'][ip][1]:extra_info['ip_connectivity_info'][ip][3]['ip_key'],extra_info['ip_connectivity_info'][ip][2]:extra_info['ip_connectivity_info'][ip][3]['ip_key']})
+        if len(extra_info['ip_connectivity_info'][ip]) == 3:
+          data['file_info'].update({extra_info['ip_connectivity_info'][ip][0]:extra_info['ip_connectivity_info'][ip][2]['ip_key'],extra_info['ip_connectivity_info'][ip][1]:extra_info['ip_connectivity_info'][ip][2]['ip_key']})
+        else:
+          if len(extra_info['ip_connectivity_info'][ip]) == 2:
+            data['file_info'].update({extra_info['ip_connectivity_info'][ip][0]:extra_info['ip_connectivity_info'][ip][1]['ip_key']})
+        op_est_data_file = json.loads(open('complete_connection.json','r').read())
+        print(op_est_data_file)
