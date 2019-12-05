@@ -3,8 +3,18 @@ INFO:
   - EXAMPLE:
     - 1/12/2019
       - Jeffy Bomb
-        - Bug on returning subjects
+        - File name:
+          - Name of file of which will hold the bug. The error will tell you the file name
+        - Bug To Report:
+          - Report the bug here. You can be specific as to what line and what exactly it is or just use something like the example below
+          - Bug in file.py when connecting to IP addresses
 
 BUGS:
   - Report bugs below:
-    
+    - !IMPORTANT, DO NOT DELETE!:
+      - 12/04/19
+        - ARACADERISE(GetStuffDone)
+          - File name:
+            - mies_net.py
+          - Bug To Report:
+            - On line 151, syntax error on ":" for some unknown reason
