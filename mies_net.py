@@ -147,7 +147,7 @@ class mies_network:
         if not os.path.exists(os.path.abspath(d[0])):raise NotADirectoryError('No such directory ' + os.path.abspath(d[0]))
         if not os.path.exists(os.path.abspath(d[1])):raise NotADirectoryError('No such directory ' + os.path.abspath(d[1]))
         if not os.path.exists(os.path.abspath(d[2])):raise NotADirectoryError('No such directory ' + os.path.abspath(d[2]))
-        if os.path.exists(os.path.abspath(d[0])) and os.path.exists(os.path.abspath(d[1])) and os.path.exists(os.path.abspath(d[2])):self.info.update({'ip_connectivity_info':{IP[0]:[os.path.abspath(d[0])],IP[1]:[os.path.abspath(d[1])],IP[2]:[os.path.abspath(d[2])]},'file_connectivity_info':{os.path.abspath(d[0]):[IP[0]],os.path.abspath(d[1]):[IP[1]],os.path.abspath(d[2]):[IP[2]]}}
+        if os.path.exists(os.path.abspath(d[0])) and os.path.exists(os.path.abspath(d[1])) and os.path.exists(os.path.abspath(d[2])):self.info.update({'ip_connectivity_info':{IP[0]:[os.path.abspath(d[0])],IP[1]:[os.path.abspath(d[1])],IP[2]:[os.path.abspath(d[2])]},'file_connectivity_info':{os.path.abspath(d[0]):[IP[0]],os.path.abspath(d[1]):[IP[1]],os.path.abspath(d[2]):[IP[2]]}})
         if self.info['ip_connectivity_info'][IP[0]][0] == self.info['ip_connectivity_info'][IP[1]][0]:
           CHECK(self.info,1)
           err = True
